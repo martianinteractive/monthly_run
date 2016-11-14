@@ -8,8 +8,8 @@ class CreateTenants < ActiveRecord::Migration
       t.string :work_phone
       t.string :home_phone
       t.text :notes
-      t.references :property, index: true, foreign_key: true
-      t.references :lease, index: true, foreign_key: true
+      #t.references :property, index: true, foreign_key: true
+      #t.references :lease, index: true, foreign_key: true
 
       t.timestamps null: false
     end

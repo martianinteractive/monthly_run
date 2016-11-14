@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114003814) do
+ActiveRecord::Schema.define(version: 20161114015810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "units_count", default: 0
+    t.boolean  "active",      default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -48,5 +56,60 @@ ActiveRecord::Schema.define(version: 20161114003814) do
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "leases", force: :cascade do |t|
+    t.text     "terms"
+    t.date     "starts_on"
+    t.integer  "length_in_months"
+    t.string   "signed_by"
+    t.integer  "monthly_amount_in_cents"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.string   "name"
+    t.text     "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "unit_name"
+    t.string   "tax_number"
+    t.string   "rent_due"
+    t.integer  "units_count", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "account_id"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "mobile"
+    t.string   "work_phone"
+    t.string   "home_phone"
+    t.text     "notes"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "property_id"
+    t.integer  "lease_id"
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string   "number"
+    t.text     "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "dimension"
+    t.text     "notes"
+    t.integer  "issues_count", default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "property_id"
+  end
 
 end
