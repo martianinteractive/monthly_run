@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114015810) do
+ActiveRecord::Schema.define(version: 20161201180535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.boolean  "active",      default: true
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "created_by"
+    t.string   "updated_by"
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -52,6 +54,8 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "created_by"
+    t.string   "updated_by"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -65,6 +69,9 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.integer  "monthly_amount_in_cents"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "unit_id"
+    t.string   "created_by"
+    t.string   "updated_by"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -77,10 +84,13 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.string   "unit_name"
     t.string   "tax_number"
     t.string   "rent_due"
-    t.integer  "units_count", default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "units_count",    default: 0
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "account_id"
+    t.string   "created_by"
+    t.string   "updated_by"
+    t.boolean  "is_rental_unit", default: false
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -95,6 +105,14 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.datetime "updated_at",  null: false
     t.integer  "property_id"
     t.integer  "lease_id"
+    t.string   "created_by"
+    t.string   "updated_by"
+  end
+
+  create_table "unit_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "units", force: :cascade do |t|
@@ -110,6 +128,19 @@ ActiveRecord::Schema.define(version: 20161114015810) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "property_id"
+    t.integer  "unit_type_id"
+    t.string   "created_by"
+    t.string   "updated_by"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "type"
+    t.integer  "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "created_by"
+    t.string   "updated_by"
   end
 
 end
