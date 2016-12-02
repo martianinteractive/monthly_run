@@ -1,6 +1,8 @@
 class Property < ActiveRecord::Base
+  
   belongs_to :account
   has_many :units
+  belongs_to :unit_type
 
   before_create :create_unit, if: :property_same_as_unit?
 
@@ -16,7 +18,8 @@ class Property < ActiveRecord::Base
       city:     city,
       state:    state,
       zip:      zip,
-      country:  country
+      country:  country,
+      rent_due: rent_due
       })
   end
 end

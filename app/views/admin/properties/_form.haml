@@ -1,0 +1,15 @@
+= semantic_form_for [:admin, @property] do |f|
+  = f.inputs name: "Address" do
+    = f.input :address, label: "Street name & Number", input_html: {rows: 3}
+    = f.input :city
+    = f.input :state
+    = f.input :zip, input_html: { style: "width: 100px;"}
+    = f.input :country, as: :country
+
+  = f.inputs name: "Details" do
+    = f.input :account
+    = f.input :name, label: "Short Name", input_html: { style: "width: 220px;"}
+    = f.input :unit_type, as: :select
+    = f.input :is_rental_unit, label: "Rental Unit?", hint: "Is the property address same as the unit for rent?"
+    = f.input :rent_due, as: :select, collection: rent_due_options
+    

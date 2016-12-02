@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201180535) do
+ActiveRecord::Schema.define(version: 20161202165535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,10 +80,8 @@ ActiveRecord::Schema.define(version: 20161201180535) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.string   "country"
-    t.string   "unit_name"
+    t.string   "country",        default: "US"
     t.string   "tax_number"
-    t.string   "rent_due"
     t.integer  "units_count",    default: 0
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
@@ -91,6 +89,8 @@ ActiveRecord::Schema.define(version: 20161201180535) do
     t.string   "created_by"
     t.string   "updated_by"
     t.boolean  "is_rental_unit", default: false
+    t.integer  "unit_type_id"
+    t.integer  "rent_due",       default: 1
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -121,16 +121,17 @@ ActiveRecord::Schema.define(version: 20161201180535) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.string   "country"
+    t.string   "country",      default: "US"
     t.string   "dimension"
     t.text     "notes"
     t.integer  "issues_count", default: 0
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "property_id"
     t.integer  "unit_type_id"
     t.string   "created_by"
     t.string   "updated_by"
+    t.integer  "rent_due",     default: 1
   end
 
   create_table "users", force: :cascade do |t|

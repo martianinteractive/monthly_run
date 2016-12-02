@@ -15,6 +15,7 @@ gem 'active_skin'
 gem 'country_select'
 gem 'ar-audit-tracer'
 gem 'chronic'
+gem 'haml-rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri

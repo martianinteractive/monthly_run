@@ -11,14 +11,14 @@ ActiveAdmin.register Property do
     end
   end
 
-  form partial: 'form'
+  index do
+    column :address
+    column :city
+    column :state
+    column :zip
+    actions
+  end
 
-  # form do |f|
-  #   inputs 'Details' do
-  #     input :name
-  #     input :address, as: :text
-  #     input :city
-  #   end
-  # end
+  form partial: 'form'
 
 end
