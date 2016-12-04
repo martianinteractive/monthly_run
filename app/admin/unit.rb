@@ -2,7 +2,9 @@ ActiveAdmin.register Unit do
   menu priority: 4
 
   action_item :only => [:show] do
-    link_to "New Lease", new_admin_unit_lease_path(resource)
+    unless resource.has_active_lease?
+      link_to "New Lease", new_admin_unit_lease_path(resource)
+    end
   end
 
   show do

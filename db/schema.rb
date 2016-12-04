@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204052532) do
+ActiveRecord::Schema.define(version: 20161204183314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(version: 20161204052532) do
     t.string   "updated_by"
     t.integer  "security_deposit_in_cents", default: 0,     null: false
     t.string   "security_deposit_currency", default: "USD", null: false
-    t.integer  "monthly_amount_in_cents",   default: 0,     null: false
-    t.string   "monthly_amount_currency",   default: "USD", null: false
+    t.integer  "monthly_rent_in_cents",     default: 0,     null: false
+    t.string   "monthly_rent_currency",     default: "USD", null: false
     t.date     "ends_on"
   end
 

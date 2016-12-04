@@ -47,10 +47,17 @@
               %td= @unit.active_lease.signed_by
             %tr
               %th Security Deposit
-              %td= @unit.active_lease.security_deposit
+              %td= number_to_currency @unit.active_lease.security_deposit
             %tr
               %th Monthly Rent
-              %td= @unit.active_lease.monthly_amount 
+              %td= number_to_currency @unit.active_lease.monthly_rent
+            %tr
+              %th Tenants
+              %td
+                %ul
+                  - for tenant in @unit.current_tenants
+                    %li= link_to tenant.full_name, admin_tenant_path(tenant)
+
   - else
     .panel_contents
       %p 

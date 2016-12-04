@@ -1,0 +1,53 @@
+.panel
+  %h3 Unit Details
+  .panel_content
+    %table
+      %tbody
+        %tr
+          %th Address
+          %td= @lease.unit.full_address
+        - if @lease.unit.notes
+          %tr
+            %th Notes
+            %td= @lease.unit.notes
+        - unless @lease.unit.property.is_rental_unit?
+          %tr
+            %th Property
+            %td= @lease.unit.property.name
+
+.panel
+  %h3 Lease Details
+  .panel_contents
+    .attributes_table
+      %table
+        %tbody
+          %tr
+            %th Time Left
+            %td
+              = distance_of_time_in_words_to_now(@lease.ends_on)
+          %tr
+            %th Lease Starts
+            %td= @lease.starts_on
+          %tr
+            %th Lease Ends
+            %td= @lease.ends_on
+          %tr
+            %th Length in months
+            %td= @lease.length_in_months
+          %tr
+            %th Signed by
+            %td= @lease.signed_by
+          %tr
+            %th Security Deposit
+            %td= number_to_currency @lease.security_deposit
+          %tr
+            %th Monthly Rent
+            %td= number_to_currency @lease.monthly_rent
+          %tr
+            %th Tenants
+            %td
+              %ul
+                - for tenant in @lease.tenants
+                  %li= link_to tenant.full_name, admin_tenant_path(tenant)
+
+

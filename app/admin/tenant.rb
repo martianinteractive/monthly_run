@@ -1,19 +1,28 @@
 ActiveAdmin.register Tenant do
 
+  config.clear_action_items!
+  
+  scope :active, default: true
+  scope :inactive
+
   menu priority: 3
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+  index do 
+    column "Full Name" do |f|
+      link_to "#{f.full_name}", admin_tenant_path(f)
+    end
 
+    column "Email" do |f|
+      f.email
+    end
+
+    column "Mobile" do |f|
+      f.mobile
+    end
+
+    column "Leased Unit" do |f|
+      f.rented_address
+    end
+  end
 
 end
