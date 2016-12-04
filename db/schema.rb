@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161202165535) do
+ActiveRecord::Schema.define(version: 20161204052532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,12 +66,16 @@ ActiveRecord::Schema.define(version: 20161202165535) do
     t.date     "starts_on"
     t.integer  "length_in_months"
     t.string   "signed_by"
-    t.integer  "monthly_amount_in_cents"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "unit_id"
     t.string   "created_by"
     t.string   "updated_by"
+    t.integer  "security_deposit_in_cents", default: 0,     null: false
+    t.string   "security_deposit_currency", default: "USD", null: false
+    t.integer  "monthly_amount_in_cents",   default: 0,     null: false
+    t.string   "monthly_amount_currency",   default: "USD", null: false
+    t.date     "ends_on"
   end
 
   create_table "properties", force: :cascade do |t|

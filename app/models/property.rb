@@ -6,6 +6,11 @@ class Property < ActiveRecord::Base
 
   before_create :create_unit, if: :property_same_as_unit?
 
+  def name
+    name = read_attribute(:name)
+    name.blank? ? address : name
+  end
+
   private
 
   def property_same_as_unit?
@@ -19,7 +24,8 @@ class Property < ActiveRecord::Base
       state:    state,
       zip:      zip,
       country:  country,
-      rent_due: rent_due
+      rent_due: rent_due,
+      unit_type: unit_type
       })
   end
 end

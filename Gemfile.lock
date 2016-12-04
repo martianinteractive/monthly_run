@@ -103,6 +103,7 @@ GEM
     formtastic (3.1.4)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
+    full-name-splitter (0.1.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -153,9 +154,16 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.0)
+    monetize (1.4.0)
+      money (~> 6.7)
     money (6.7.1)
       i18n (>= 0.6.4, <= 0.7.0)
       sixarm_ruby_unaccent (>= 1.1.1, < 2)
+    money-rails (1.7.0)
+      activesupport (>= 3.0)
+      monetize (~> 1.4.0)
+      money (~> 6.7)
+      railties (>= 3.0)
     multi_json (1.12.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -279,10 +287,12 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  full-name-splitter
   haml-rails
   jbuilder
   jquery-rails
   listen (~> 3.0.5)
+  money-rails
   pg
   puma
   rails

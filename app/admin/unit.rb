@@ -1,12 +1,23 @@
 ActiveAdmin.register Unit do
   menu priority: 4
 
+  action_item :only => [:show] do
+    link_to "New Lease", new_admin_unit_lease_path(resource)
+  end
+
+  show do
+    render 'show'
+  end
+
   index do
-    column :address
+    column "address" do |unit|
+      link_to unit.address, admin_unit_path(unit)
+    end
     column :city
     column :state
     column :zip
-    actions
   end
+
+  form partial: 'form'
 
 end

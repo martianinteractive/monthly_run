@@ -22,3 +22,6 @@ Property.create!({
   is_rental_unit: true
   })
 
+unit = Unit.first
+
+

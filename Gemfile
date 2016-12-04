@@ -16,6 +16,8 @@ gem 'country_select'
 gem 'ar-audit-tracer'
 gem 'chronic'
 gem 'haml-rails'
+gem 'money-rails'
+gem 'full-name-splitter'
 
 group :development, :test do
   gem 'byebug', platform: :mri
