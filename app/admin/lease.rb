@@ -5,6 +5,10 @@ ActiveAdmin.register Lease do
   
   config.clear_action_items!
 
+  action_item :only => [:show] do
+    link_to "Edit Lease", edit_admin_lease_path(resource)
+  end
+
   belongs_to :unit, optional: true
 
   menu priority: 2
@@ -20,6 +24,7 @@ ActiveAdmin.register Lease do
   controller do
     def active_lease
       @unit = Unit.find(params[:unit_id])
+      
       if @unit.has_active_lease?
         flash[:warning] = "Unit has an active lease."
       end
@@ -50,11 +55,14 @@ ActiveAdmin.register Lease do
 
   form do |f|
     f.inputs name: "Details" do
-      f.input :starts_on, as: :date_picker
-      f.input :length_in_months, as: :number
-      f.input :signed_by
+      f.input :starts_on, label: "Lease starts on", as: :date_picker
+      f.input :length_in_months, label: "Length", as: :select, collection: month_options
+    end
+
+    f.inputs name: "Charges" do
       f.input :security_deposit
       f.input :monthly_rent
+      f.input :pet_fee
     end
 
     f.inputs name: "Tenants" do
@@ -64,8 +72,8 @@ ActiveAdmin.register Lease do
         f.input :mobile, as: :phone
         f.input :work_phone, as: :phone
         f.input :home_phone, as: :phone
-        f.input :signee, hint: "Check if the tenant has signed on the contract."
-        f.input :primary, hint: "Check if the tenant is the primary renter."
+        f.input :signee, hint: "Check if the tenant has signed the contract."
+        f.input :primary, hint: "Check if the tenant is the primary leasee."
       end
     end
 

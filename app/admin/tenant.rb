@@ -7,6 +7,13 @@ ActiveAdmin.register Tenant do
 
   menu priority: 3
 
+  filter :units
+  filter :first_name
+  filter :last_name
+  filter :email
+  filter :mobile
+  filter :primary
+
   index do 
     column "Full Name" do |f|
       link_to "#{f.full_name}", admin_tenant_path(f)

@@ -10,4 +10,9 @@ module ApplicationHelper
       "6th day of the month": "6"
     }
   end
+
+  def month_options
+    opt = (1..60).to_a
+    opt.collect {|a| [pluralize(a, 'month'), a] }
+  end
 end

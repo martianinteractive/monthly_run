@@ -10,6 +10,7 @@ class Lease < ActiveRecord::Base
 
   monetize :security_deposit_in_cents, allow_nil: false
   monetize :monthly_rent_in_cents, allow_nil: false
+  monetize :pet_fee_in_cents, allow_nil: false
 
   before_save :update_ends_on
 

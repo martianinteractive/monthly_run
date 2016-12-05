@@ -24,4 +24,6 @@ class Unit < ActiveRecord::Base
     end
   end
 
+  alias_method :name, :full_address
+
 end

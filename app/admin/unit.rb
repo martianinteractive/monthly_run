@@ -1,6 +1,12 @@
 ActiveAdmin.register Unit do
   menu priority: 4
 
+  filter :unit_type
+  filter :address
+  filter :county
+  filter :city
+  filter :zip
+
   action_item :only => [:show] do
     link_to "New Lease", new_admin_unit_lease_path(resource)
   end
@@ -11,11 +17,9 @@ ActiveAdmin.register Unit do
 
   index do
     column "address" do |unit|
-      link_to unit.address, admin_unit_path(unit)
+      link_to unit.full_address, admin_unit_path(unit)
     end
-    column :city
-    column :state
-    column :zip
+    column :county
   end
 
   form partial: 'form'

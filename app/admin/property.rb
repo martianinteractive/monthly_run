@@ -2,6 +2,11 @@ ActiveAdmin.register Property do
 
   menu priority: 1
 
+  filter :account
+  filter :county
+  filter :city
+  filter :zip
+
   controller do
     def build_new_resource(attributes={})
       if Account.count == 1
@@ -12,10 +17,12 @@ ActiveAdmin.register Property do
   end
 
   index do
-    column :address
-    column :city
-    column :state
-    column :zip
+    column :address do |p|
+      p.full_address
+    end
+
+    column :county
+    
     actions
   end
 

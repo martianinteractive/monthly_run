@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205024413) do
+ActiveRecord::Schema.define(version: 20161205233204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 20161205024413) do
   create_table "leases", force: :cascade do |t|
     t.date     "starts_on"
     t.integer  "length_in_months",          default: 12,    null: false
-    t.string   "signed_by"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.integer  "unit_id"
@@ -77,6 +76,8 @@ ActiveRecord::Schema.define(version: 20161205024413) do
     t.integer  "monthly_rent_in_cents",     default: 0,     null: false
     t.string   "monthly_rent_currency",     default: "USD", null: false
     t.date     "ends_on"
+    t.integer  "pet_fee_in_cents",          default: 0,     null: false
+    t.string   "pet_fee_currency",          default: "USD", null: false
   end
 
   create_table "properties", force: :cascade do |t|
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 20161205024413) do
     t.boolean  "is_rental_unit", default: false
     t.integer  "unit_type_id"
     t.integer  "rent_due",       default: 1
+    t.string   "county"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -145,6 +147,7 @@ ActiveRecord::Schema.define(version: 20161205024413) do
     t.string   "created_by"
     t.string   "updated_by"
     t.integer  "rent_due",     default: 1
+    t.string   "county"
   end
 
   create_table "users", force: :cascade do |t|
