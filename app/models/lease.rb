@@ -1,6 +1,7 @@
 class Lease < ActiveRecord::Base
   belongs_to :unit
-  has_many :tenants
+  has_many :terms
+  has_many :tenants, through: :terms
 
   accepts_nested_attributes_for :tenants
 

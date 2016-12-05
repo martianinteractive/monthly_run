@@ -20,7 +20,7 @@ gem 'money-rails'
 gem 'full-name-splitter'
 
 group :development, :test do
-  gem 'byebug', platform: :mri
+  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', '3.1.1', require: false

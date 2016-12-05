@@ -2,9 +2,7 @@ ActiveAdmin.register Unit do
   menu priority: 4
 
   action_item :only => [:show] do
-    unless resource.has_active_lease?
-      link_to "New Lease", new_admin_unit_lease_path(resource)
-    end
+    link_to "New Lease", new_admin_unit_lease_path(resource)
   end
 
   show do
@@ -21,5 +19,8 @@ ActiveAdmin.register Unit do
   end
 
   form partial: 'form'
+
+  permit_params :address, :number, :city, :state, :zip, :country, :unit_type_id, :rent_due, :dimension, :notes
+                
 
 end

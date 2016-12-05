@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 DatabaseCleaner.clean_with(:truncation)
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+AdminUser.create!(first_name: "Sergio", last_name: "Bayona", email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 account = Account.create(name: "Urban Home Development, LLC")
 UnitType.create!([{name: "Apartment"}, {name: "Studio"}, {name: "Single-Family Home"}, {name: "Duplex"}, {name: "Townhouse"}, {name: "Condominium"}])
 unit_type = UnitType.where(name: "Single-Family Home").first

@@ -12,4 +12,6 @@
     = f.input :unit_type, as: :select
     = f.input :is_rental_unit, label: "Rental Unit?", hint: "Is the property address same as the unit for rent?"
     = f.input :rent_due, as: :select, collection: rent_due_options
+  
+  = f.actions
     

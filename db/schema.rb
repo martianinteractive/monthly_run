@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204183314) do
+ActiveRecord::Schema.define(version: 20161205024413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,15 +56,16 @@ ActiveRecord::Schema.define(version: 20161204183314) do
     t.datetime "updated_at",                          null: false
     t.string   "created_by"
     t.string   "updated_by"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "leases", force: :cascade do |t|
-    t.text     "terms"
     t.date     "starts_on"
-    t.integer  "length_in_months"
+    t.integer  "length_in_months",          default: 12,    null: false
     t.string   "signed_by"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
@@ -105,12 +106,20 @@ ActiveRecord::Schema.define(version: 20161204183314) do
     t.string   "work_phone"
     t.string   "home_phone"
     t.text     "notes"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "property_id"
-    t.integer  "lease_id"
     t.string   "created_by"
     t.string   "updated_by"
+    t.boolean  "signee",      default: false
+    t.boolean  "primary",     default: false
+  end
+
+  create_table "terms", force: :cascade do |t|
+    t.integer  "lease_id"
+    t.integer  "tenant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "unit_types", force: :cascade do |t|

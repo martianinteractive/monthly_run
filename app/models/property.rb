@@ -11,6 +11,10 @@ class Property < ActiveRecord::Base
     name.blank? ? address : name
   end
 
+  def full_address
+    "#{address}, #{city}, #{state} #{zip}"
+  end
+
   private
 
   def property_same_as_unit?

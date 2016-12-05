@@ -9,10 +9,21 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, :signed_by, :security_deposit, :monthly_amount, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy]
+  permit_params :starts_on, :length_in_months, :signed_by, :security_deposit, :monthly_rent, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy]
 
   show do
     render 'show'
+  end
+
+  before_filter :active_lease, only: [:new]
+
+  controller do
+    def active_lease
+      @unit = Unit.find(params[:unit_id])
+      if @unit.has_active_lease?
+        flash[:warning] = "Unit has an active lease."
+      end
+    end
   end
 
   filter :ends_on, label: "Ends between:"
@@ -53,6 +64,8 @@ ActiveAdmin.register Lease do
         f.input :mobile, as: :phone
         f.input :work_phone, as: :phone
         f.input :home_phone, as: :phone
+        f.input :signee, hint: "Check if the tenant has signed on the contract."
+        f.input :primary, hint: "Check if the tenant is the primary renter."
       end
     end
 
