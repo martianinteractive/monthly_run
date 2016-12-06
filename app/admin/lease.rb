@@ -13,7 +13,7 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, :signed_by, :security_deposit, :monthly_rent, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy]
+  permit_params :starts_on, :length_in_months, :security_deposit, :monthly_rent, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy]
 
   show do
     render 'show'
@@ -69,9 +69,9 @@ ActiveAdmin.register Lease do
       f.has_many :tenants do |f|
         f.input :full_name
         f.input :email
-        f.input :mobile, as: :phone
-        f.input :work_phone, as: :phone
-        f.input :home_phone, as: :phone
+        f.input :mobile, as: :phone, input_html: { class: "phone_us" }
+        f.input :work_phone, as: :phone, input_html: { class: "phone_us" }
+        f.input :home_phone, as: :phone, input_html: { class: "phone_us" }
         f.input :signee, hint: "Check if the tenant has signed the contract."
         f.input :primary, hint: "Check if the tenant is the primary leasee."
       end
