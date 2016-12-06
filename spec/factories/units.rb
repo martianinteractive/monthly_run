@@ -8,7 +8,6 @@ FactoryGirl.define do
     country "MyString"
     dimension "MyString"
     notes "MyText"
-    vacant false
     issues_count 1
     property nil
     unit_type nil

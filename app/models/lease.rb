@@ -5,8 +5,10 @@ class Lease < ActiveRecord::Base
 
   accepts_nested_attributes_for :tenants
 
-  scope :active, -> { where("CURRENT_DATE <= ends_on") }
-  scope :inactive, -> { where("CURRENT_DATE > ends_on") }
+  validates :starts_on, :length_in_months, :unit, presence: true
+
+  scope :active, -> { where("CURRENT_DATE < ends_on") }
+  scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
   monetize :security_deposit_in_cents, allow_nil: false
   monetize :monthly_rent_in_cents, allow_nil: false
