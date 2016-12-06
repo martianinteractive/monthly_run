@@ -40,5 +40,58 @@ RSpec.describe Lease, type: :model do
     lease = create(:lease, starts_on: 1.year.ago, length_in_months: 12)
     expect(lease.ends_on).to eq(Date.today)
   end
+
+  describe "validating starts on" do
+    it "validates starts on" do
+      lease = build(:lease, starts_on: 1)
+      lease.valid?
+      expect(lease.errors[:starts_on]).to eq(["is not a valid date"])
+    end
+
+    it "empty gets caught by presence validator" do
+      lease = build(:lease, starts_on: "")
+      lease.valid?
+      expect(lease.errors[:starts_on]).to_not include("is not a valid date")
+    end
+
+    it "nil gets caught by presence validator" do
+      lease = build(:lease, starts_on: nil)
+      lease.valid?
+      expect(lease.errors[:starts_on]).to_not include("is not a valid date")
+    end
+  end
+
+  describe "validating length in months" do
+    it "is invalid with 0 months" do
+      lease = build(:lease, length_in_months: 0)
+      lease.valid?
+      expect(lease.errors[:length_in_months]).to eq(["is not included in the list"])
+    end
+
+    it "is valid with 1 month" do
+      lease = build(:lease, length_in_months: 1)
+      lease.valid?
+      expect(lease.errors[:length_in_months]).to eq([])
+    end
+
+    it "cannot be nil - does not trigger integer validation" do
+      lease = build(:lease, length_in_months: nil)
+      lease.valid?
+      expect(lease.errors[:length_in_months]).to eq(["can't be blank"])
+    end
+
+    it "cannot be blank - does not trigger integer validation" do
+      lease = build(:lease, length_in_months: "")
+      lease.valid?
+      expect(lease.errors[:length_in_months]).to eq(["can't be blank"])
+    end
+
+    it "cannot be blank - does not trigger integer validation" do
+      lease = build(:lease, length_in_months: 1.4)
+      lease.valid?
+      expect(lease.errors[:length_in_months]).to eq(["must be an integer"])
+    end
+  end
+
  
 end

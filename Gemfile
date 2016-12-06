@@ -18,6 +18,7 @@ gem 'chronic'
 gem 'haml-rails'
 gem 'money-rails'
 gem 'full-name-splitter'
+gem 'validates_timeliness'
 
 group :development, :test do
   gem 'pry-rails'

@@ -6,6 +6,9 @@ class Lease < ActiveRecord::Base
   accepts_nested_attributes_for :tenants
 
   validates :starts_on, :length_in_months, :unit, presence: true
+  validates_date :starts_on, allow_blank: true
+  validates_numericality_of :length_in_months, only_integer: true, allow_blank: true
+  validates_inclusion_of :length_in_months, in: (1..60), allow_blank: true
 
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
