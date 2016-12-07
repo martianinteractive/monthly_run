@@ -5,5 +5,7 @@ FactoryGirl.define do
     state "GA"
     zip "30236"
     country "United States"
+    account
+    unit_type
   end
 end

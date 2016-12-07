@@ -1,8 +1,10 @@
 class Property < ActiveRecord::Base
   
   belongs_to :account
-  has_many :units
   belongs_to :unit_type
+  has_many :units
+
+  validates :address, :city, :state, :zip, :country, :account, :unit_type, presence: true
 
   before_create :create_unit, if: :property_same_as_unit?
 

@@ -92,6 +92,5 @@ RSpec.describe Lease, type: :model do
       expect(lease.errors[:length_in_months]).to eq(["must be an integer"])
     end
   end
-
  
 end
