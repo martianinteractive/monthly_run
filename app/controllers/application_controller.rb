@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   private 
 
   def set_audit_fields
-  Concern::Audit::Author.current = current_admin_user.id
+  Concern::Audit::Author.current = current_admin_user.id if current_admin_user
   end
 end

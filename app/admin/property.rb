@@ -18,7 +18,7 @@ ActiveAdmin.register Property do
 
   index do
     column :address do |p|
-      p.full_address
+      p.formatted_address
     end
 
     column :county
@@ -28,7 +28,7 @@ ActiveAdmin.register Property do
 
   show do
     attributes_table do
-      row :full_address
+      row :formatted_address
       row :tax_number
       row :created_at
       row :account
@@ -40,6 +40,6 @@ ActiveAdmin.register Property do
 
   form partial: 'form'
 
-  permit_params :address, :city, :state, :zip, :country, :account_id, :name, :unit_type_id, :is_rental_unit, :rent_due
+  permit_params :latitude, :longitude, :location, :location_type, :formatted_address, :bounds, :viewport, :route, :street_number, :postal_code, :locality, :sublocality, :country_short, :administrative_area_level_1, :administrative_area_level_2, :place_id, :reference, :url, :account_id, :name, :unit_type_id, :is_rental_unit, :rent_due
 
 end

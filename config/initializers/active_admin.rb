@@ -274,3 +274,11 @@ end
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper
 end
+
+Rails.application.config.after_initialize do
+  javascripts = [] 
+  javascripts << "//maps.googleapis.com/maps/api/js?libraries=places"
+  javascripts += ActiveAdmin.application.javascripts.to_a
+  ActiveAdmin.application.javascripts.replace javascripts
+end
+

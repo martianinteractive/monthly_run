@@ -12,11 +12,6 @@ UnitType.create!([{name: "Apartment"}, {name: "Studio"}, {name: "Single-Family H
 unit_type = UnitType.where(name: "Single-Family Home").first
 
 Property.create!({
-  address: "7317 Howard  Place", 
-  city: "Jonesboro", 
-  state: "GA", 
-  zip: "30236", 
-  country: "US", 
   unit_type_id: unit_type.id,
   account: account,
   is_rental_unit: true

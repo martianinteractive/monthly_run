@@ -1,3 +1,5 @@
 //= require "active_admin/base"
 //= require "jquery.mask"
+//= require "jquery.geocomplete"
+//= require "geocomplete-setup"
 //= require "mask_setup"

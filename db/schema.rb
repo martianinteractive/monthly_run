@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205233204) do
+ActiveRecord::Schema.define(version: 20161209174305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,23 +81,37 @@ ActiveRecord::Schema.define(version: 20161205233204) do
   end
 
   create_table "properties", force: :cascade do |t|
-    t.string   "name"
-    t.text     "address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.string   "country",        default: "US"
     t.string   "tax_number"
-    t.integer  "units_count",    default: 0
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "units_count",                 default: 0
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.integer  "account_id"
     t.string   "created_by"
     t.string   "updated_by"
-    t.boolean  "is_rental_unit", default: false
+    t.boolean  "is_rental_unit",              default: false
     t.integer  "unit_type_id"
-    t.integer  "rent_due",       default: 1
+    t.integer  "rent_due",                    default: 1
     t.string   "county"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.string   "location"
+    t.string   "location_type"
+    t.string   "formatted_address"
+    t.string   "bounds"
+    t.string   "viewport"
+    t.string   "route"
+    t.string   "street_number"
+    t.string   "postal_code"
+    t.string   "locality"
+    t.string   "sublocality"
+    t.string   "country"
+    t.string   "country_short"
+    t.string   "administrative_area_level_1"
+    t.string   "administrative_area_level_2"
+    t.string   "place_id"
+    t.string   "reference"
+    t.string   "url"
+    t.string   "name"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -132,22 +146,37 @@ ActiveRecord::Schema.define(version: 20161205233204) do
 
   create_table "units", force: :cascade do |t|
     t.string   "number"
-    t.text     "address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.string   "country",      default: "US"
     t.string   "dimension"
     t.text     "notes"
-    t.integer  "issues_count", default: 0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "issues_count",                default: 0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "property_id"
     t.integer  "unit_type_id"
     t.string   "created_by"
     t.string   "updated_by"
-    t.integer  "rent_due",     default: 1
+    t.integer  "rent_due",                    default: 1
     t.string   "county"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.string   "location"
+    t.string   "location_type"
+    t.string   "formatted_address"
+    t.string   "bounds"
+    t.string   "viewport"
+    t.string   "route"
+    t.string   "street_number"
+    t.string   "postal_code"
+    t.string   "locality"
+    t.string   "sublocality"
+    t.string   "country"
+    t.string   "country_short"
+    t.string   "administrative_area_level_1"
+    t.string   "administrative_area_level_2"
+    t.string   "place_id"
+    t.string   "reference"
+    t.string   "url"
+    t.string   "name"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,14 +1,30 @@
 = semantic_form_for [:admin, @property] do |f|
-  = f.inputs name: "Address" do
-    = f.input :address, label: "Street name & Number", input_html: {rows: 3}
-    = f.input :city
-    = f.input :state
-    = f.input :zip, input_html: { style: "width: 100px;"}
-    = f.input :country, as: :country
+  = f.inputs name: "Enter Location" do
+    = f.input :address, as: :string, input_html: {rows: 3, class: "input-address"}
+
+    = f.input :name, as: :hidden, input_html: {"data-geo" => "name"}
+    = f.input :latitude, as: :hidden, input_html: {"data-geo" => "lat"}
+    = f.input :longitude, as: :hidden, input_html: {"data-geo" => "lng"}
+    = f.input :location, as: :hidden, input_html: {"data-geo" => "location"}
+    = f.input :location_type, as: :hidden, input_html: {"data-geo" => "location_type"}
+    = f.input :formatted_address, as: :hidden, input_html: {"data-geo" => "formatted_address"}
+    = f.input :bounds, as: :hidden, input_html: {"data-geo" => "bounds"}
+    = f.input :viewport, as: :hidden, input_html: {"data-geo" => "viewport"}
+    = f.input :route, as: :hidden, input_html: {"data-geo" => "route"}
+    = f.input :street_number, as: :hidden, input_html: {"data-geo" => "street_number"}
+    = f.input :postal_code, as: :hidden, input_html: {"data-geo" => "postal_code"}
+    = f.input :locality, as: :hidden, input_html: {"data-geo" => "locality"}
+    = f.input :sublocality, as: :hidden, input_html: {"data-geo" => "sublocality"}
+    = f.input :country, as: :hidden, input_html: {"data-geo" => "country"}
+    = f.input :country_short, as: :hidden, input_html: {"data-geo" => "country_short"}
+    = f.input :administrative_area_level_1, as: :hidden, input_html: {"data-geo" => "administrative_area_level_1"}
+    = f.input :administrative_area_level_2, as: :hidden, input_html: {"data-geo" => "administrative_area_level_2"}
+    = f.input :place_id, as: :hidden, input_html: {"data-geo" => "place_id"}
+    = f.input :reference, as: :hidden, input_html: {"data-geo" => "reference"}
+    = f.input :url, as: :hidden, input_html: {"data-geo" => "url"}
 
   = f.inputs name: "Details" do
     = f.input :account
-    = f.input :name, label: "Short Name", input_html: { style: "width: 220px;"}
     = f.input :unit_type, as: :select
     = f.input :is_rental_unit, label: "Rental Unit?", hint: "Is the property address same as the unit for rent?"
     = f.input :rent_due, as: :select, collection: rent_due_options

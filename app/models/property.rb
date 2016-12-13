@@ -1,20 +1,16 @@
 class Property < ActiveRecord::Base
+  attr_accessor :address
   
   belongs_to :account
   belongs_to :unit_type
   has_many :units
 
-  validates :address, :city, :state, :zip, :country, :account, :unit_type, presence: true
+  validates :account, :address, :unit_type, presence: true
 
   before_create :create_unit, if: :property_same_as_unit?
 
-  def name
-    name = read_attribute(:name)
-    name.blank? ? address : name
-  end
-
-  def full_address
-    "#{address}, #{city}, #{state} #{zip}"
+  def county
+    administrative_area_level_2
   end
 
   private
@@ -25,11 +21,6 @@ class Property < ActiveRecord::Base
 
   def create_unit
     units.build({
-      address:  address,
-      city:     city,
-      state:    state,
-      zip:      zip,
-      country:  country,
       rent_due: rent_due,
       unit_type: unit_type
       })

@@ -1,6 +1,6 @@
 = semantic_form_for [:admin, @unit] do |f|
   = f.inputs name: "Address" do
-    = f.input :address, label: "Street name & Number", input_html: {rows: 3}
+    = f.input :address, label: "Street name & Number", input_html: {rows: 3, class: "input-address"}
     = f.input :number, label: "Unit Number", input_html: { style: "width: 200px;" }
     = f.input :city
     = f.input :state
