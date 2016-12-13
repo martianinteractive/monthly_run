@@ -13,6 +13,8 @@ unit_type = UnitType.where(name: "Single-Family Home").first
 
 Property.create!({
   unit_type_id: unit_type.id,
+  address: "211 Southern Hill Dr, Duluth, GA 30097",
+  formatted_address: "211 Southern Hill Dr, Duluth, GA 30097",
   account: account,
   is_rental_unit: true
   })

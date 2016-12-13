@@ -1,6 +1,6 @@
 = semantic_form_for [:admin, @property] do |f|
   = f.inputs name: "Enter Location" do
-    = f.input :address, as: :string, input_html: {rows: 3, class: "input-address"}
+    = f.input :formatted_address, input_html: {class: "input-address", name: "address"}
 
     = f.input :name, as: :hidden, input_html: {"data-geo" => "name"}
     = f.input :latitude, as: :hidden, input_html: {"data-geo" => "lat"}

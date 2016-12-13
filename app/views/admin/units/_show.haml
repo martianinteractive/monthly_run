@@ -5,10 +5,7 @@
       %tbody
         %tr
           %th Address
-          %td
-            = @unit.address
-            %br
-            = "#{@unit.city}, #{@unit.state} #{@unit.zip}"
+          %td= @unit.formatted_address
         - if @unit.number
           %tr
             %th Unit Number
