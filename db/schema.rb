@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161209174305) do
+ActiveRecord::Schema.define(version: 20161213031239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(version: 20161209174305) do
     t.boolean  "is_rental_unit",              default: false
     t.integer  "unit_type_id"
     t.integer  "rent_due",                    default: 1
-    t.string   "county"
     t.string   "latitude"
     t.string   "longitude"
     t.string   "location"
@@ -156,7 +155,6 @@ ActiveRecord::Schema.define(version: 20161209174305) do
     t.string   "created_by"
     t.string   "updated_by"
     t.integer  "rent_due",                    default: 1
-    t.string   "county"
     t.string   "latitude"
     t.string   "longitude"
     t.string   "location"

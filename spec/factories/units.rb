@@ -1,12 +1,7 @@
 FactoryGirl.define do
   factory :unit do
-    number "MyString"
-    address "MyText"
-    city "MyString"
-    state "MyString"
-    zip "MyString"
-    country "MyString"
-    dimension "MyString"
+    formatted_address "211 Southern Hill Dr, Duluth, GA 30097"
+    country "US"
     notes "MyText"
     issues_count 1
     property nil

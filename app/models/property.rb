@@ -22,7 +22,27 @@ class Property < ActiveRecord::Base
   def create_unit
     units.build({
       rent_due: rent_due,
-      unit_type: unit_type
+      unit_type: unit_type,
+      latitude: latitude,
+      longitude: longitude,
+      location: location,
+      location_type: location_type,
+      formatted_address: formatted_address,
+      bounds: bounds,
+      viewport: viewport,
+      route: route,
+      street_number: street_number,
+      postal_code: postal_code,
+      locality: locality,
+      sublocality: sublocality,
+      country: country,
+      country_short: country_short,
+      administrative_area_level_1: administrative_area_level_1,
+      administrative_area_level_2: administrative_area_level_2,
+      place_id: place_id,
+      reference: reference,
+      url: url,
+      name: name
       })
   end
 end

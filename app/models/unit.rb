@@ -16,14 +16,4 @@ class Unit < ActiveRecord::Base
     active_lease.present?
   end
 
-  def full_address
-    if number.present?
-      "#{address} #{number}, #{city}, #{state} #{zip}"
-    else
-      "#{address}, #{city}, #{state} #{zip}"
-    end
-  end
-
-  alias_method :name, :full_address
-
 end

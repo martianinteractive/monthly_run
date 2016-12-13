@@ -17,7 +17,7 @@ ActiveAdmin.register Unit do
 
   index do
     column "address" do |unit|
-      link_to unit.full_address, admin_unit_path(unit)
+      link_to unit.formatted_address, admin_unit_path(unit)
     end
     column :county
   end

@@ -28,9 +28,18 @@ ActiveAdmin.register Property do
 
   show do
     attributes_table do
-      row :formatted_address
+      row "Address" do |p|
+        p.formatted_address
+      end
+
+      row "County" do |p|
+        p.county
+      end
+
       row :tax_number
-      row :created_at
+      row "Created" do |p|
+        p.created_at
+      end
       row :account
       row "created by" do |p|
         AdminUser.find(p.created_by).full_name
@@ -40,6 +49,6 @@ ActiveAdmin.register Property do
 
   form partial: 'form'
 
-  permit_params :latitude, :longitude, :location, :location_type, :formatted_address, :bounds, :viewport, :route, :street_number, :postal_code, :locality, :sublocality, :country_short, :administrative_area_level_1, :administrative_area_level_2, :place_id, :reference, :url, :account_id, :name, :unit_type_id, :is_rental_unit, :rent_due
+  permit_params :address, :latitude, :longitude, :location, :location_type, :formatted_address, :bounds, :viewport, :route, :street_number, :postal_code, :locality, :sublocality, :country_short, :administrative_area_level_1, :administrative_area_level_2, :place_id, :reference, :url, :account_id, :name, :unit_type_id, :is_rental_unit, :rent_due
 
 end
