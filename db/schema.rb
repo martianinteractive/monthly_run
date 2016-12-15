@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213031239) do
+ActiveRecord::Schema.define(version: 20161215030433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,29 @@ ActiveRecord::Schema.define(version: 20161213031239) do
     t.string   "reference"
     t.string   "url"
     t.string   "name"
+  end
+
+  create_table "rents", force: :cascade do |t|
+    t.integer  "rent_due_in_cents"
+    t.integer  "rent_collected_in_cents"
+    t.string   "month"
+    t.datetime "collected_at"
+    t.datetime "deposited_at"
+    t.string   "received_via"
+    t.string   "received_by"
+    t.text     "notes"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "lease_id"
+  end
+
+  add_index "rents", ["lease_id"], name: "index_rents_on_lease_id", using: :btree
+
+  create_table "settings", force: :cascade do |t|
+    t.json     "unit_types"
+    t.json     "default_charges"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "tenants", force: :cascade do |t|
