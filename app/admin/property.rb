@@ -42,7 +42,7 @@ ActiveAdmin.register Property do
       end
       row :account
       row "created by" do |p|
-        AdminUser.find(p.created_by).full_name
+        p.created_by
       end
     end
   end

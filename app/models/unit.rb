@@ -6,6 +6,10 @@ class Unit < ActiveRecord::Base
   has_many :leases
   has_one :active_lease, -> { where("CURRENT_DATE < ends_on") }, class_name: "Lease"
 
+  def county
+    administrative_area_level_2
+  end
+
   def current_tenants
     if active_lease && active_lease.tenants.any?
       active_lease.tenants

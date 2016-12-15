@@ -13,6 +13,13 @@ class Property < ActiveRecord::Base
     administrative_area_level_2
   end
 
+  def created_by
+    id = read_attribute(:created_by)
+    return "" if id.blank?
+    user = AdminUser.find(id)
+    user ? user.full_name : ""
+  end
+
   private
 
   def property_same_as_unit?

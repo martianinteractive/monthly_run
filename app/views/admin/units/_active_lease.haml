@@ -1,0 +1,37 @@
+.panel
+  - if @unit.active_lease
+    .panel_contents
+      .attributes_table
+        %table
+          %tbody
+            %tr
+              %th Time Left
+              %td
+                = distance_of_time_in_words_to_now(@unit.active_lease.ends_on)
+            %tr
+              %th Lease Starts
+              %td= @unit.active_lease.starts_on
+            %tr
+              %th Lease Ends
+              %td= @unit.active_lease.ends_on
+            %tr
+              %th Length in months
+              %td= @unit.active_lease.length_in_months
+            %tr
+              %th Security Deposit
+              %td= number_to_currency @unit.active_lease.security_deposit
+            %tr
+              %th Monthly Rent
+              %td= number_to_currency @unit.active_lease.monthly_rent
+            %tr
+              %th Tenants
+              %td
+                %ul
+                  - for tenant in @unit.current_tenants
+                    %li= link_to tenant.full_name, admin_tenant_path(tenant)
+
+  - else
+    .panel_contents
+      %p 
+        No Active Lease.     
+        = link_to "Create new lease.", new_admin_unit_lease_path(resource)
