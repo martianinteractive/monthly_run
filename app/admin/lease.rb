@@ -37,7 +37,7 @@ ActiveAdmin.register Lease do
 
   index do 
     column :unit do |f|
-      link_to "#{f.unit.full_address}", admin_lease_path(f)
+      link_to "#{f.unit.formatted_address}", admin_lease_path(f)
     end
 
     column "Started" do |f|
@@ -63,6 +63,7 @@ ActiveAdmin.register Lease do
       f.input :security_deposit
       f.input :monthly_rent
       f.input :pet_fee
+      f.input :preferred_payment_method, as: :select, collection: payment_method_options
     end
 
     f.inputs name: "Tenants" do

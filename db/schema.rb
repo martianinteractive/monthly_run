@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215030433) do
+ActiveRecord::Schema.define(version: 20161219162059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20161215030433) do
     t.date     "ends_on"
     t.integer  "pet_fee_in_cents",          default: 0,     null: false
     t.string   "pet_fee_currency",          default: "USD", null: false
+    t.string   "preferred_payment_method"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -114,16 +115,16 @@ ActiveRecord::Schema.define(version: 20161215030433) do
   end
 
   create_table "rents", force: :cascade do |t|
-    t.integer  "rent_due_in_cents"
-    t.integer  "rent_collected_in_cents"
+    t.integer  "amount_due_in_cents"
+    t.integer  "amount_collected_in_cents"
     t.string   "month"
     t.datetime "collected_at"
     t.datetime "deposited_at"
     t.string   "received_via"
     t.string   "received_by"
     t.text     "notes"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "lease_id"
   end
 

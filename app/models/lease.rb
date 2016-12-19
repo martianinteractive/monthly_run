@@ -6,6 +6,8 @@ class Lease < ActiveRecord::Base
 
   accepts_nested_attributes_for :tenants
 
+  delegate :formatted_address, to: :unit
+
   validates :starts_on, :length_in_months, :unit, presence: true
   validates_date :starts_on, allow_blank: true
   validates_numericality_of :length_in_months, only_integer: true, allow_blank: true
@@ -20,12 +22,20 @@ class Lease < ActiveRecord::Base
 
   before_save :update_ends_on
 
+  def receive_rent!(options={})
+    RentReceiver.process!(self, options)
+  end
+
   def update_ends_on
     self.ends_on = starts_on + length_in_months.send(:months)
   end
 
   def time_left
     ends_on - Date.today
+  end
+
+  def amount_due
+    monthly_rent
   end
 
 end

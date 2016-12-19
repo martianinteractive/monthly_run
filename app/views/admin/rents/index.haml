@@ -1,0 +1,21 @@
+.panel
+  %h3 Rents Unpaid
+  .panel_content
+    %table
+      %tbody
+        - for rent in @rents_unpaid
+          %tr
+            %td= rent.formatted_address
+            %td= number_to_currency rent.amount_due
+            %td= button_to "Receive", receive_admin_rent_path(rent), method: :put
+
+  %br
+  %h3 Rents Paid
+  .panel_content
+    %table
+      %tbody
+        - for rent in @rents_paid
+          %tr
+            %td= rent.formatted_address
+            %td= number_to_currency rent.amount_due
+            %td= rent.collected_at
