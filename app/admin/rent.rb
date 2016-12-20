@@ -7,8 +7,12 @@ ActiveAdmin.register Rent do
     render 'index'
   end
 
+  show do
+    render 'show'
+  end
+
   member_action :receive, method: :put do
-    lease.receive_rent!
+    lease.receive_rent!(user: current_admin_user)
     redirect_to admin_rents_path, notice: "Rent received!"
   end
 
@@ -22,7 +26,7 @@ ActiveAdmin.register Rent do
 
     def collection
       @rents_unpaid = Rent.unpaid_this_month
-      @rents_paid = Rent.paid_this_month
+      @rents_paid = Rent.order(created_at: :desc).paid_this_month
     end
   end
 

@@ -4,25 +4,28 @@
     %table
       %tbody
         %tr
-          %th Address
-          %th Amount Due
-          %th 
-        - for rent in @rents_unpaid
-          %tr
-            %td= rent.formatted_address
-            %td= number_to_currency rent.amount_due
-            %td= button_to "Receive Payment", receive_admin_rent_path(rent), method: :put
+          - if @rents_unpaid.any?
+            %th Address
+            %th Amount Due
+            %th 
+            - for rent in @rents_unpaid
+              %tr
+                %td= rent.formatted_address
+                %td= number_to_currency rent.amount_due
+                %td= button_to "Receive Payment", receive_admin_rent_path(rent), method: :put
+          - else
+            %th All paid this month!
 
   %h3 Paid
   .panel_content
     %table
       %tbody
         %tr
-          %th Address
           %th Received
+          %th From
           %th Collected
         - for rent in @rents_paid
           %tr
+            %td= link_to(number_to_currency(rent.amount_due), admin_rent_path(rent))
             %td= rent.formatted_address
-            %td= number_to_currency rent.amount_due
             %td= rent.collected_at.to_s(:event_datetime)
