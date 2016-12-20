@@ -3,3 +3,4 @@
 //= require "jquery.geocomplete"
 //= require "geocomplete-setup"
 //= require "mask_setup"
+//= require "month_picker"
