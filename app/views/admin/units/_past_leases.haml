@@ -1,0 +1,33 @@
+.panel
+  - if @unit.past_leases.any?
+    .panel_contents
+      .attributes_table
+        %table
+          %tbody
+            - for past_lease in @unit.past_leases
+              %tr
+                %th Lease Started
+                %td= past_lease.starts_on
+              %tr
+                %th Lease Ended
+                %td= past_lease.ends_on
+              %tr
+                %th Length in months
+                %td= past_lease.length_in_months
+              %tr
+                %th Security Deposit
+                %td= number_to_currency past_lease.security_deposit
+              %tr
+                %th Monthly Rent
+                %td= number_to_currency past_lease.monthly_rent
+              %tr
+                %th Tenants
+                %td
+                  %ul
+                    - for tenant in past_lease.tenants
+                      %li= link_to tenant.full_name, admin_tenant_path(tenant)
+
+  - else
+    .panel_contents
+      %p 
+        No Past Leases.

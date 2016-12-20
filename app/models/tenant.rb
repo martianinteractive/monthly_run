@@ -13,7 +13,7 @@ class Tenant < ActiveRecord::Base
   scope :active, -> { joins(:leases).where("CURRENT_DATE <= leases.ends_on") }
 
   def rented_address
-    active_unit&.full_address || last_lease&.unit&.full_address
+    active_unit&.formatted_address || last_lease&.unit&.formatted_address
   end
 
   def last_lease

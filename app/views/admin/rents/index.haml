@@ -1,21 +1,12 @@
-.panel
-  %h3 Rents Unpaid
-  .panel_content
-    %table
-      %tbody
-        - for rent in @rents_unpaid
-          %tr
-            %td= rent.formatted_address
-            %td= number_to_currency rent.amount_due
-            %td= button_to "Receive", receive_admin_rent_path(rent), method: :put
+.tabs 
+  %ul.nav.nav-tabs{role: "tablist"}
+    %li
+      = link_to "This Month", "#this_month"
+    %li
+      = link_to "Next Month", "#next_month"
 
-  %br
-  %h3 Rents Paid
-  .panel_content
-    %table
-      %tbody
-        - for rent in @rents_paid
-          %tr
-            %td= rent.formatted_address
-            %td= number_to_currency rent.amount_due
-            %td= rent.collected_at
+  .tab-content.rents-panel
+    #this_month
+      = render partial: "this_month"
+    #next_month
+      = render partial: "next_month"
