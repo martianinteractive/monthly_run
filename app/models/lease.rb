@@ -39,7 +39,7 @@ class Lease < ActiveRecord::Base
   end
 
   def periodic_charge_amount
-    periodic_charges.to_a.sum(&:amount)
+    Money.new(periodic_charges.to_a.sum(&:amount))
   end
 
 end

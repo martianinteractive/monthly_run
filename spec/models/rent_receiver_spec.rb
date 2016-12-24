@@ -11,17 +11,17 @@ RSpec.describe RentReceiver, "with default options" do
 
   it { expect(rent_receiver).to be_a(RentReceiver) }
 
-  it { expect(rent_receiver.amount_due).to eq Money.new(1) }
+  it { expect(rent_receiver.amount_due).to eq Money.new(0) }
 
   it { expect(rent_receiver.admin_user).to eq nil }
 
-  it { expect(rent_receiver.amount_collected).to eq Money.new(1) }
+  it { expect(rent_receiver.amount_collected).to eq Money.new(0) }
 
-  it { expect(rent_receiver.collected_at.to_s).to eq DateTime.now.to_s }
+  it { expect(rent_receiver.collected_on.to_s).to eq Time.zone.now.to_date.to_s }
 
   it { expect(rent_receiver.received_via).to eq nil }
 
-  it { expect(rent_receiver.applicable_period.to_s).to eq DateTime.now.to_s }
+  it { expect(rent_receiver.applicable_period.to_s).to eq Time.zone.now.to_date.to_s }
 
 end
 
