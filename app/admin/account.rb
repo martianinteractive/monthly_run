@@ -1,6 +1,18 @@
 ActiveAdmin.register Account do
 
-permit_params :name
+  before_create do |order|
+    resource.admin_user = current_admin_user
+  end
+
+  form do |f|
+    f.inputs do
+      f.input :name
+      f.input :active
+    end
+    f.actions
+  end
+
+  permit_params :name
 
   filter :name 
   

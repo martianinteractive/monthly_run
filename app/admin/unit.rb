@@ -1,4 +1,9 @@
 ActiveAdmin.register Unit do
+
+  before_create do |order|
+    resource.admin_user = current_admin_user
+  end
+  
   menu priority: 4
 
   filter :unit_type

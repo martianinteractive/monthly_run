@@ -11,19 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220175121) do
+ActiveRecord::Schema.define(version: 20161220210929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name"
-    t.integer  "units_count", default: 0
-    t.boolean  "active",      default: true
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "created_by"
-    t.string   "updated_by"
+    t.integer  "units_count",   default: 0
+    t.boolean  "active",        default: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "admin_user_id"
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -54,8 +53,6 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "created_by"
-    t.string   "updated_by"
     t.string   "first_name"
     t.string   "last_name"
   end
@@ -69,8 +66,6 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.integer  "unit_id"
-    t.string   "created_by"
-    t.string   "updated_by"
     t.integer  "security_deposit_in_cents", default: 0,     null: false
     t.string   "security_deposit_currency", default: "USD", null: false
     t.integer  "monthly_rent_in_cents",     default: 0,     null: false
@@ -79,6 +74,7 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.integer  "pet_fee_in_cents",          default: 0,     null: false
     t.string   "pet_fee_currency",          default: "USD", null: false
     t.string   "preferred_payment_method"
+    t.integer  "admin_user_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -87,8 +83,6 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
     t.integer  "account_id"
-    t.string   "created_by"
-    t.string   "updated_by"
     t.boolean  "is_rental_unit",              default: false
     t.integer  "unit_type_id"
     t.integer  "rent_due",                    default: 1
@@ -112,6 +106,7 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.string   "reference"
     t.string   "url"
     t.string   "name"
+    t.integer  "admin_user_id"
   end
 
   create_table "rents", force: :cascade do |t|
@@ -125,8 +120,8 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "lease_id"
-    t.integer  "user_id"
-    t.datetime "applicable_period"
+    t.integer  "admin_user_id"
+    t.date     "applicable_period"
   end
 
   add_index "rents", ["lease_id"], name: "index_rents_on_lease_id", using: :btree
@@ -146,13 +141,12 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.string   "work_phone"
     t.string   "home_phone"
     t.text     "notes"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "property_id"
-    t.string   "created_by"
-    t.string   "updated_by"
-    t.boolean  "signee",      default: false
-    t.boolean  "primary",     default: false
+    t.boolean  "signee",        default: false
+    t.boolean  "primary",       default: false
+    t.integer  "admin_user_id"
   end
 
   create_table "terms", force: :cascade do |t|
@@ -177,8 +171,6 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.datetime "updated_at",                              null: false
     t.integer  "property_id"
     t.integer  "unit_type_id"
-    t.string   "created_by"
-    t.string   "updated_by"
     t.integer  "rent_due",                    default: 1
     t.string   "latitude"
     t.string   "longitude"
@@ -200,16 +192,16 @@ ActiveRecord::Schema.define(version: 20161220175121) do
     t.string   "reference"
     t.string   "url"
     t.string   "name"
+    t.integer  "admin_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "type"
     t.integer  "account_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "created_by"
-    t.string   "updated_by"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "admin_user_id"
   end
 
 end

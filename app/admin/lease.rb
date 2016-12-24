@@ -1,5 +1,9 @@
 ActiveAdmin.register Lease do
 
+  before_create do |order|
+    resource.admin_user = current_admin_user
+  end
+
   scope :active, default: true
   scope :inactive
   

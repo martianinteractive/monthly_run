@@ -13,8 +13,6 @@ unit_type = UnitType.where(name: "Single-Family Home").first
 
 Property.create!({
   account: account,
-  created_by: "1",
-  updated_by: "1",
   is_rental_unit: true,
   unit_type: unit_type,
   rent_due: 1,

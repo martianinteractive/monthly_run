@@ -1,11 +1,15 @@
 .tabs 
   %ul.nav.nav-tabs{role: "tablist"}
     %li
+      = link_to "Last Month", "#last_month"
+    %li
       = link_to "This Month", "#this_month"
     %li
       = link_to "Next Month", "#next_month"
 
   .tab-content.rents-panel
+    #last_month
+      = render partial: "last_month"
     #this_month
       = render partial: "this_month"
     #next_month

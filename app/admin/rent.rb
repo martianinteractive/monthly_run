@@ -1,6 +1,10 @@
 ActiveAdmin.register Rent do
   config.filters = false
 
+  before_create do |order|
+    resource.admin_user = current_admin_user
+  end
+
   belongs_to :lease, optional: true
 
   index do
@@ -12,7 +16,12 @@ ActiveAdmin.register Rent do
   end
 
   member_action :receive, method: :put do
-    lease.receive_rent!(user: current_admin_user)
+
+    lease.receive_rent!({
+      admin_user:         current_admin_user, 
+      applicable_period:  params[:applicable_period]
+      })
+    
     redirect_to admin_rents_path, notice: "Rent received!"
   end
 
@@ -25,11 +34,17 @@ ActiveAdmin.register Rent do
     end
 
     def collection
-      @rents_unpaid = Rent.unpaid_this_month
-      @rents_paid = Rent.order(created_at: :desc).paid_this_month
+      today = Time.zone.now.to_date
+
+      @rents_unpaid_last_month = Rent.unpaid_for_date(today - 1.month)
+      @rents_paid_last_month = Rent.paid_for_date(today - 1.month)
+
+      @rents_unpaid_this_month = Rent.unpaid_for_date(today)
+      @rents_paid_this_month = Rent.order(created_at: :desc).paid_for_date(today)
+
+      @rents_unpaid_next_month = Rent.unpaid_for_date(today + 1.month)
+      @rents_paid_next_month = Rent.order(created_at: :desc).paid_for_date(today + 1.month)
     end
   end
-
-
 
 end

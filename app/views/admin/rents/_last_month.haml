@@ -4,17 +4,17 @@
     %table
       %tbody
         %tr
-          - if @rents_unpaid_this_month.any?
+          - if @rents_unpaid_last_month.any?
             %th Address
             %th Amount Due
             %th 
-            - for rent in @rents_unpaid_this_month
+            - for rent in @rents_unpaid_last_month
               %tr
                 %td= rent.formatted_address
                 %td= number_to_currency rent.amount_due
-                %td= button_to "Receive Payment", receive_admin_rent_path(rent, applicable_period: 'this month'), method: :put
+                %td= button_to "Receive Payment", receive_admin_rent_path(rent, applicable_period: 'last month'), method: :put
           - else
-            %th All paid this month!
+            %th All paid last month!
 
   %h3 Paid
   .panel_content
@@ -24,7 +24,7 @@
           %th Received
           %th From
           %th Collected
-        - for rent in @rents_paid_this_month
+        - for rent in @rents_paid_last_month
           %tr
             %td= link_to(number_to_currency(rent.amount_due), admin_rent_path(rent))
             %td= rent.formatted_address

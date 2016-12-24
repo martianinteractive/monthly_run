@@ -1,5 +1,9 @@
 ActiveAdmin.register Tenant do
 
+  before_create do |order|
+    resource.admin_user = current_admin_user
+  end
+
   config.clear_action_items!
   
   scope :active, default: true

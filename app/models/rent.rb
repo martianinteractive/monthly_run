@@ -1,6 +1,6 @@
 class Rent < ActiveRecord::Base
   belongs_to :lease
-  belongs_to :user, class_name: "AdminUser"
+  belongs_to :admin_user
 
   monetize :amount_due_in_cents, allow_nil: false
   monetize :amount_collected_in_cents, allow_nil: false
@@ -8,15 +8,12 @@ class Rent < ActiveRecord::Base
   delegate :formatted_address, to: :lease
   delegate :amount_due, to: :lease
 
-  validates :user, presence: true
+  validates :admin_user, presence: true
 
-  scope :paid_this_month, -> { where("date_trunc('month', created_at) = date_trunc('month', current_date)") }
-
-  def self.unpaid_this_month
-    Lease.active.where("id NOT IN (#{current_rent_sql})")
+  scope :paid_for_date, ->(date=Time.zone.now.to_date) { where("applicable_period >= ? AND applicable_period < ?", date.beginning_of_month, date.end_of_month) }
+  
+  def self.unpaid_for_date(date)
+    Lease.active.where("id NOT IN (#{select(:lease_id).paid_for_date(date).to_sql})")
   end
 
-  def self.current_rent_sql
-    Rent.select(:lease_id).paid_this_month.to_sql
-  end
 end
