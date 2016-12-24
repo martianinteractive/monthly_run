@@ -1,6 +1,7 @@
-class Rent < ActiveRecord::Base
+class Payment < ActiveRecord::Base
   belongs_to :lease
   belongs_to :admin_user
+  belongs_to :charge
 
   monetize :amount_due_in_cents, allow_nil: false
   monetize :amount_collected_in_cents, allow_nil: false
@@ -15,5 +16,5 @@ class Rent < ActiveRecord::Base
   def self.unpaid_for_date(date)
     Lease.active.where("id NOT IN (#{select(:lease_id).paid_for_date(date).to_sql})")
   end
-
+  
 end

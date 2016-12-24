@@ -3,8 +3,12 @@ class Lease < ActiveRecord::Base
   has_many :terms
   has_many :tenants, through: :terms
   has_many :rents
+  has_many :charges
+  has_many :periodic_charges, -> { where(frequency: ['weekly', 'monthly', 'yearly']) }, class_name: "Charge"
+  has_many :payments
 
   accepts_nested_attributes_for :tenants
+  accepts_nested_attributes_for :charges
 
   delegate :formatted_address, to: :unit
 
@@ -15,10 +19,6 @@ class Lease < ActiveRecord::Base
 
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
-
-  monetize :security_deposit_in_cents, allow_nil: false
-  monetize :monthly_rent_in_cents, allow_nil: false
-  monetize :pet_fee_in_cents, allow_nil: false
 
   before_save :update_ends_on
 
@@ -35,7 +35,11 @@ class Lease < ActiveRecord::Base
   end
 
   def amount_due
-    monthly_rent
+    periodic_charge_amount
+  end
+
+  def periodic_charge_amount
+    periodic_charges.to_a.sum(&:amount)
   end
 
 end

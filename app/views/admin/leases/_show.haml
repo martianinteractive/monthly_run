@@ -35,11 +35,11 @@
             %th Length in months
             %td= @lease.length_in_months
           %tr
-            %th Security Deposit
-            %td= number_to_currency @lease.security_deposit
-          %tr
-            %th Monthly Rent
-            %td= number_to_currency @lease.monthly_rent
+            %th Charges
+            %td
+              %ul
+                - for charge in @lease.charges
+                  %li #{charge.frequency.humanize} #{charge.name}: #{number_to_currency charge.amount}
           %tr
             %th Tenants
             %td

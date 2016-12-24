@@ -1,4 +1,4 @@
-ActiveAdmin.register Rent do
+ActiveAdmin.register Payment do
   config.filters = false
 
   before_create do |order|
@@ -22,7 +22,7 @@ ActiveAdmin.register Rent do
       applicable_period:  params[:applicable_period]
       })
     
-    redirect_to admin_rents_path, notice: "Rent received!"
+    redirect_to admin_payments_path, notice: "Rent received!"
   end
 
 
@@ -36,14 +36,14 @@ ActiveAdmin.register Rent do
     def collection
       today = Time.zone.now.to_date
 
-      @rents_unpaid_last_month = Rent.unpaid_for_date(today - 1.month)
-      @rents_paid_last_month = Rent.paid_for_date(today - 1.month)
+      @rents_unpaid_last_month = Payment.unpaid_for_date(today - 1.month)
+      @rents_paid_last_month = Payment.paid_for_date(today - 1.month)
 
-      @rents_unpaid_this_month = Rent.unpaid_for_date(today)
-      @rents_paid_this_month = Rent.order(created_at: :desc).paid_for_date(today)
+      @rents_unpaid_this_month = Payment.unpaid_for_date(today)
+      @rents_paid_this_month = Payment.order(created_at: :desc).paid_for_date(today)
 
-      @rents_unpaid_next_month = Rent.unpaid_for_date(today + 1.month)
-      @rents_paid_next_month = Rent.order(created_at: :desc).paid_for_date(today + 1.month)
+      @rents_unpaid_next_month = Payment.unpaid_for_date(today + 1.month)
+      @rents_paid_next_month = Payment.order(created_at: :desc).paid_for_date(today + 1.month)
     end
   end
 

@@ -25,4 +25,13 @@ module ApplicationHelper
      "Direct Deposit": "direct_deposit"
     }
   end
+
+  def frequency_options
+    {
+      "Weekly": "weekly",
+      "Monthly": "monthly",
+      "Yearly": "yearly",
+      "One Time": "one_time"
+    }
+  end
 end

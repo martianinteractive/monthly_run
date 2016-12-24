@@ -11,7 +11,7 @@
           %tr
             %td= rent.formatted_address
             %td= number_to_currency rent.amount_due
-            %td= button_to "Receive Payment", receive_admin_rent_path(rent, applicable_period: 'next month'), method: :put
+            %td= button_to "Receive Payment", receive_admin_payment_path(rent, applicable_period: 'next month'), method: :put
 
   %h3 Paid
   .panel_content
@@ -26,6 +26,6 @@
               %tr
                 %td= number_to_currency rent.amount_due
                 %td= rent.formatted_address
-                %td= rent.collected_at.to_s(:event_datetime)
+                %td= rent.collected_on.to_s(:event_datetime)
           - else
             %th None paid next month.

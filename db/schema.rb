@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220210929) do
+ActiveRecord::Schema.define(version: 20161224043938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,22 +60,47 @@ ActiveRecord::Schema.define(version: 20161220210929) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "charges", force: :cascade do |t|
+    t.string   "name"
+    t.string   "frequency"
+    t.integer  "amount_in_cents"
+    t.string   "amount_currency"
+    t.integer  "lease_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "leases", force: :cascade do |t|
     t.date     "starts_on"
-    t.integer  "length_in_months",          default: 12,    null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.integer  "length_in_months",         default: 12, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "unit_id"
-    t.integer  "security_deposit_in_cents", default: 0,     null: false
-    t.string   "security_deposit_currency", default: "USD", null: false
-    t.integer  "monthly_rent_in_cents",     default: 0,     null: false
-    t.string   "monthly_rent_currency",     default: "USD", null: false
     t.date     "ends_on"
-    t.integer  "pet_fee_in_cents",          default: 0,     null: false
-    t.string   "pet_fee_currency",          default: "USD", null: false
     t.string   "preferred_payment_method"
     t.integer  "admin_user_id"
   end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "lease_id"
+    t.string   "name"
+    t.integer  "amount_due_in_cents",       default: 0,     null: false
+    t.string   "amount_due_currency",       default: "USD", null: false
+    t.integer  "amount_collected_in_cents", default: 0,     null: false
+    t.string   "amount_collected_currency", default: "USD", null: false
+    t.date     "collected_on"
+    t.date     "deposited_on"
+    t.string   "received_via"
+    t.integer  "admin_user_id"
+    t.date     "applicable_period"
+    t.integer  "charge_id"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "payments", ["admin_user_id"], name: "index_payments_on_admin_user_id", using: :btree
+  add_index "payments", ["charge_id"], name: "index_payments_on_charge_id", using: :btree
+  add_index "payments", ["lease_id"], name: "index_payments_on_lease_id", using: :btree
 
   create_table "properties", force: :cascade do |t|
     t.string   "tax_number"
@@ -204,4 +229,7 @@ ActiveRecord::Schema.define(version: 20161220210929) do
     t.integer  "admin_user_id"
   end
 
+  add_foreign_key "payments", "admin_users"
+  add_foreign_key "payments", "charges"
+  add_foreign_key "payments", "leases"
 end

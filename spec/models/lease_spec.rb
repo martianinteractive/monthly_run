@@ -4,7 +4,8 @@ RSpec.describe Lease, type: :model do
 
   it { is_expected.to belong_to(:unit) }
   it { is_expected.to have_many(:terms) }
-  it { is_expected.to have_many(:rents) }
+  it { is_expected.to have_many(:charges) }
+  it { is_expected.to have_many(:payments) }
   it { is_expected.to have_many(:tenants).through(:terms) }
 
   it { is_expected.to accept_nested_attributes_for(:tenants) }
@@ -92,6 +93,15 @@ RSpec.describe Lease, type: :model do
       lease.valid?
       expect(lease.errors[:length_in_months]).to eq(["must be an integer"])
     end
+  end
+
+  context "" do
+    let(:pet_fee) { create(:charge, name: "Pet Fee", amount: "30", frequency: "monthly") }
+    let(:rent) { create(:charge, name: "Rent", amount: "400", frequency: "monthly") }
+    let(:unit) { create(:unit) }
+    let(:lease) { create(:lease, charges: [pet_fee, rent], unit: unit) }
+
+    it { expect(lease.periodic_charge_amount).to eq Money.new(43000) }
   end
  
 end

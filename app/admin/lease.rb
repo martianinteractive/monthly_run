@@ -17,7 +17,7 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, :security_deposit, :monthly_rent, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy]
+  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy], charges_attributes: [:id, :name, :frequency, :amount]
 
   show do
     render 'show'
@@ -37,7 +37,6 @@ ActiveAdmin.register Lease do
 
   filter :ends_on, label: "Ends between:"
   filter :starts_on, label: "Starts between:"
-  filter :monthly_rent_in_cents, label: "Monthly Rent:"
 
   index do 
     column :unit do |f|
@@ -52,8 +51,8 @@ ActiveAdmin.register Lease do
       distance_of_time_in_words_to_now(f.ends_on)
     end
 
-    column "Mo. Rent", sortable: :monthly_rent_in_cents do |f|
-      number_to_currency(f.monthly_rent)
+    column "Mo. Rent" do |f|
+      number_to_currency(f.periodic_charge_amount)
     end
   end
 
@@ -61,13 +60,6 @@ ActiveAdmin.register Lease do
     f.inputs name: "Details" do
       f.input :starts_on, label: "Lease starts on", as: :date_picker
       f.input :length_in_months, label: "Length", as: :select, collection: month_options
-    end
-
-    f.inputs name: "Charges" do
-      f.input :security_deposit
-      f.input :monthly_rent
-      f.input :pet_fee
-      f.input :preferred_payment_method, as: :select, collection: payment_method_options
     end
 
     f.inputs name: "Tenants" do
@@ -79,6 +71,14 @@ ActiveAdmin.register Lease do
         f.input :home_phone, as: :phone, input_html: { class: "phone_us" }
         f.input :signee, hint: "Check if the tenant has signed the contract."
         f.input :primary, hint: "Check if the tenant is the primary leasee."
+      end
+    end
+
+    f.inputs name: "Charges" do
+      f.has_many :charges do |f|
+        f.input :name
+        f.input :frequency, as: :select, collection: frequency_options
+        f.input :amount, as: :number, input_html: { style: "width: 200px;" }
       end
     end
 
