@@ -23,7 +23,7 @@
         %tr
           %th Received
           %th From
-          %th Collected
+          %th Collected On
         - for rent in @rents_paid_this_month
           %tr
             %td= link_to(number_to_currency(rent.amount_due), admin_rent_path(rent))
