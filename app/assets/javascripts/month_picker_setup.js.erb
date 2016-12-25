@@ -1,0 +1,8 @@
+$(document).ready(function() {
+    $('.month_picker').MonthPicker({
+      Button: false,
+      AltField: '#monthyearval',
+      OnAfterChooseMonth: function() { $("#month_form").submit() }
+    });
+
+})

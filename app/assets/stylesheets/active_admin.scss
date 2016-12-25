@@ -10,6 +10,7 @@
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "jquery-ui";
 @import "active_skin";
 @import "rents";
 @import "month_picker";
@@ -22,3 +23,8 @@
 form input[type=date] {
     width: auto;
 }
+
+.pull-right {
+  float: right!important;  
+}
+

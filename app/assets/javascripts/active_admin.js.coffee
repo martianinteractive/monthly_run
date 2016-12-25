@@ -4,3 +4,4 @@
 //= require "geocomplete-setup"
 //= require "mask_setup"
 //= require "month_picker"
+//= require "month_picker_setup"

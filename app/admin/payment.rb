@@ -19,12 +19,11 @@ ActiveAdmin.register Payment do
 
     lease.receive_rent!({
       admin_user:         current_admin_user, 
-      applicable_period:  params[:applicable_period]
+      applicable_period:  period
       })
     
-    redirect_to admin_payments_path, notice: "Rent received!"
+    redirect_to admin_payments_path(anchor: anchor), notice: "Rent received!"
   end
-
 
   controller do
     layout 'active_admin' 
@@ -40,10 +39,18 @@ ActiveAdmin.register Payment do
       @rents_paid_last_month = Payment.paid_for_date(today - 1.month)
 
       @rents_unpaid_this_month = Payment.unpaid_for_date(today)
-      @rents_paid_this_month = Payment.order(created_at: :desc).paid_for_date(today)
+      @rents_paid_this_month = Payment.paid_for_date(today)
 
       @rents_unpaid_next_month = Payment.unpaid_for_date(today + 1.month)
-      @rents_paid_next_month = Payment.order(created_at: :desc).paid_for_date(today + 1.month)
+      @rents_paid_next_month = Payment.paid_for_date(today + 1.month)
+    end
+
+    def period
+      params[:applicable_period]
+    end
+
+    def anchor
+      period.to_s.tr(' ', '_')
     end
   end
 

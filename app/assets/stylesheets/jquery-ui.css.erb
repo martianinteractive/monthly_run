@@ -1,0 +1,200 @@
+.month-picker.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 4px;
+}
+.month-picker.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 4px;
+}
+.month-picker.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+    border-top-right-radius: 4px;
+}
+.month-picker.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+    border-top-left-radius: 4px;
+}
+.month-picker.ui-widget-content {
+    border: 1px solid #aaaaaa;
+    background: #ffffff url(<%= asset_path 'ui-bg_flat_75_ffffff_40x100.png' %>) 50% 50% repeat-x;
+    color: #222222;
+}
+
+
+.month-picker-header {
+  margin-top: 3px;
+  margin-right: 3px;
+  margin-bottom: 0px;
+  margin-left: 3px;
+}
+
+.month-picker table {
+  border-collapse: separate;
+  -webkit-border-horizontal-spacing: 2px;
+  -webkit-border-vertical-spacing: 2px;
+}
+.month-picker-year-table {
+  width: 100%;
+  user-select: none;
+}
+.month-picker td {
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+a {
+  text-decoration: none;
+  color: rgb(0, 126, 223);
+  text-shadow: none;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  transition-delay: initial;
+  transition-property: text-shadow;
+}
+.month-picker-year-table a {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+}
+.month-picker-year-table .ui-button {
+  font-size: 1.1em;
+  width: 1.5em;
+  height: 1.5em;
+  cursor: default;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+.month-picker .ui-button-text {
+  padding-top: 0.4em;
+  padding-right: 0px;
+  padding-bottom: 0.4em;
+  padding-left: 0px;
+}
+.month-picker-year-table .ui-button-text {
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+.ui-button-text {
+  padding-top: 0.4em;
+  padding-right: 0.6em;
+  padding-bottom: 0.4em;
+  padding-left: 0.6em;
+  line-height: 0.8;
+}
+.month-picker-year-table .month-picker-title {
+  text-align: center;
+}
+.month-picker-year-table .month-picker-title .ui-button {
+  font-size: 1em;
+  padding-top: 0.1em;
+  padding-right: 0px;
+  padding-bottom: 0.1em;
+  padding-left: 0px;
+  width: 100%;
+  font-weight: 700;
+}
+.month-picker {
+  display: inline-block;
+  position: absolute;
+  z-index: 9999;
+}
+.month-picker-month-table td {
+  height: 35px;
+  text-align: center;
+}
+.month-picker-month-table .ui-button {
+  width: 4.2em;
+  margin-top: 0.2em;
+  margin-right: 0.2em;
+  margin-bottom: 0.2em;
+  margin-left: 0.2em;
+}
+
+.month-picker .ui-widget-header .ui-icon {
+  background-image: url(<%= asset_path 'ui-icons_222222_256x240.png' %>);
+}
+
+.month-picker .ui-button-icon-only .ui-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.month-picker .ui-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+.month-picker .ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #cccccc url(<%= asset_path 'ui-bg_highlight-soft_75_cccccc_1x100.png' %>) 50% 50% repeat-x;
+    color: #222222;
+    font-weight: bold;
+}
+
+.month-picker .ui-button {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    line-height: normal;
+    margin-right: .1em;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    overflow: visible;
+}
+
+.ui-icon-circle-triangle-w {
+    background-position: -80px -192px;
+}
+
+.ui-icon-circle-triangle-e {
+    background-position: -48px -192px;
+}
+
+.month-picker-open-button {
+    height: 20px;
+    width: 20px;
+    vertical-align: bottom;
+}
+
+.month-picker .ui-state-default {
+    border: 1px solid #d3d3d3;
+    background: #e6e6e6 url(<%= asset_path 'ui-bg_glass_75_e6e6e6_1x400.png' %>) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #555555;
+}
+
+
+.month-picker .ui-state-default .ui-icon {
+    background-image: url(<%= asset_path 'ui-icons_888888_256x240.png' %>);
+}
+
+.month-picker .ui-icon-calculator {
+    background-position: -112px -112px;
+}
+
