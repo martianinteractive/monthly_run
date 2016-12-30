@@ -4,11 +4,11 @@
     %table
       %tbody
         %tr
-          - if @rents_unpaid_this_month.any?
+          - if this_month[:unpaid].any?
             %th Address
             %th Amount Due
             %th 
-            - for rent in @rents_unpaid_this_month
+            - for rent in this_month[:unpaid]
               %tr
                 %td= rent.formatted_address
                 %td= number_to_currency rent.amount_due
@@ -24,7 +24,7 @@
           %th Received
           %th From
           %th Collected On
-        - for rent in @rents_paid_this_month
+        - for rent in this_month[:paid]
           %tr
             %td= link_to(number_to_currency(rent.amount_due), admin_payment_path(rent))
             %td= rent.formatted_address

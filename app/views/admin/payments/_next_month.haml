@@ -7,7 +7,7 @@
           %th Address
           %th Amount Due
           %th 
-        - for rent in @rents_unpaid_next_month
+        - for rent in next_month[:unpaid]
           %tr
             %td= rent.formatted_address
             %td= number_to_currency rent.amount_due
@@ -18,11 +18,11 @@
     %table
       %tbody
         %tr
-          - if @rents_paid_next_month.any?
+          - if next_month[:paid].any?
             %th Received
             %th From
             %th Collected On
-            - for rent in @rents_paid_next_month
+            - for rent in next_month[:paid]
               %tr
                 %td= number_to_currency rent.amount_due
                 %td= rent.formatted_address

@@ -5,3 +5,5 @@
 //= require "mask_setup"
 //= require "month_picker"
 //= require "month_picker_setup"
+//= require "chosen-jquery"
+//= require "chosen_setup"

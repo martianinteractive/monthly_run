@@ -1,0 +1,9 @@
+= semantic_form_for [:admin, @payment] do |f|
+  = f.inputs "Payment Details" do
+    = f.input :lease_id, as: :select, label: "Lease", collection: active_leases_options, input_html: {class: "properties"}
+
+    - if @payment.lease
+      = f.input :charge, as: :select, collection: options_for_select(@payment.lease_charges.map {|c| [c.name, c.id, {'data-value'=>c.amount}]})
+      = f.input :amount_collected, input_html: { style: "width: 10em;"}
+
+

@@ -1,21 +1,26 @@
 .pull-right
   = form_tag "/admin/payments", method: "get", id: "month_form" do
-    %input.month_picker{type: 'text'}
-    %input#monthyearval{type: 'hidden', name: "q"}
+    %input.month_picker{type: 'text', value: params[:period]}
+    %input#monthyearval{type: 'hidden', name: "period", value: params[:period]}
 
-.tabs 
-  %ul.nav.nav-tabs{role: "tablist"}
-    %li
-      = link_to "Last Month", "#last_month"
-    %li
-      = link_to "This Month", "#this_month"
-    %li
-      = link_to "Next Month", "#next_month"
 
-  .tab-content.rents-panel
-    #last_month
-      = render partial: "last_month"
-    #this_month
-      = render partial: "this_month"
-    #next_month
-      = render partial: "next_month"
+- if params[:period].present?
+  = render partial: "selected_period", locals: { selected_period: selected_period }
+- else
+  .tabs 
+    %ul.nav.nav-tabs{role: "tablist"}
+      %li
+        = link_to "Last Month", "#last_month"
+      %li
+        = link_to "This Month", "#this_month"
+      %li
+        = link_to "Next Month", "#next_month"
+
+    .tab-content.rents-panel
+      #last_month
+        = render partial: "last_month", locals: { last_month: last_month }
+      #this_month
+        = render partial: "this_month", locals: { this_month: this_month }
+      #next_month
+        = render partial: "next_month", locals: { next_month: next_month }
+

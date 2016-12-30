@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe RentReceiver, "with default options" do
 
-  let(:lease) { create(:lease) }
+  let(:charge) { create(:charge, amount: 0) }
+  let(:lease) { create(:lease, charges: [charge]) }
   let(:rent_receiver) { RentReceiver.new(lease) }
   
   it { expect { RentReceiver.new }.to raise_error(ArgumentError)  }

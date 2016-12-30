@@ -18,17 +18,17 @@
               %th Length in months
               %td= @unit.active_lease.length_in_months
             %tr
-              %th Security Deposit
-              %td= number_to_currency @unit.active_lease.security_deposit
-            %tr
-              %th Monthly Rent
-              %td= number_to_currency @unit.active_lease.monthly_rent
-            %tr
               %th Tenants
               %td
                 %ul
                   - for tenant in @unit.current_tenants
                     %li= link_to tenant.full_name, admin_tenant_path(tenant)
+            %tr
+              %th Charges
+              %td
+                %ul
+                  - for charge in @unit.active_lease.charges
+                    %li #{charge.frequency.humanize} #{charge.name} #{number_to_currency(charge.amount)}
 
   - else
     .panel_contents

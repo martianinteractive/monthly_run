@@ -1,20 +1,21 @@
+%h2= Chronic.parse(params[:period]).to_s(:period)
 .panel
   %h3 Unpaid
   .panel_content
     %table
       %tbody
         %tr
-          - if last_month[:unpaid].any?
+          - if selected_period[:unpaid].any?
             %th Address
             %th Amount Due
             %th 
-            - for rent in last_month[:unpaid]
+            - for rent in selected_period[:unpaid]
               %tr
                 %td= rent.formatted_address
                 %td= number_to_currency rent.amount_due
-                %td= button_to "Receive Payment", receive_admin_payment_path(rent, applicable_period: 'last month'), method: :put
+                %td= button_to "Receive Payment", receive_admin_payment_path(rent, applicable_period: 'this month'), method: :put
           - else
-            %th All paid last month!
+            %th All paid this month!
 
   %h3 Paid
   .panel_content
@@ -24,7 +25,7 @@
           %th Received
           %th From
           %th Collected On
-        - for rent in last_month[:paid]
+        - for rent in selected_period[:paid]
           %tr
             %td= link_to(number_to_currency(rent.amount_due), admin_payment_path(rent))
             %td= rent.formatted_address

@@ -9,7 +9,7 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', path: "/Users/sergiobayona/Documents/code/gems/active_admin"
 gem 'devise'
 gem 'active_skin'
 gem 'country_select'
@@ -18,6 +18,7 @@ gem 'haml-rails'
 gem 'money-rails'
 gem 'full-name-splitter'
 gem 'validates_timeliness'
+gem 'chosen-rails'
 
 group :development, :test do
   gem 'pry-rails'

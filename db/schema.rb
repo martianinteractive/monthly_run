@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161224043938) do
+ActiveRecord::Schema.define(version: 20161229165048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 20161224043938) do
     t.date     "ends_on"
     t.string   "preferred_payment_method"
     t.integer  "admin_user_id"
+    t.integer  "rent_due",                 default: 1
+    t.integer  "grace_period_in_days",     default: 1
   end
 
   create_table "payments", force: :cascade do |t|
@@ -196,7 +198,6 @@ ActiveRecord::Schema.define(version: 20161224043938) do
     t.datetime "updated_at",                              null: false
     t.integer  "property_id"
     t.integer  "unit_type_id"
-    t.integer  "rent_due",                    default: 1
     t.string   "latitude"
     t.string   "longitude"
     t.string   "location"

@@ -28,7 +28,6 @@ class Property < ActiveRecord::Base
 
   def create_unit
     units.build({
-      rent_due: rent_due,
       unit_type: unit_type,
       latitude: latitude,
       longitude: longitude,

@@ -7,7 +7,7 @@ ActiveAdmin.register Property do
   menu priority: 1
 
   filter :account
-  filter :county
+  filter :administrative_area_level_2, label: "County", as: :select
   filter :city
   filter :zip
 

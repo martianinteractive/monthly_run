@@ -1,5 +1,6 @@
 class Lease < ActiveRecord::Base
   belongs_to :unit
+  belongs_to :admin_user
   has_many :terms
   has_many :tenants, through: :terms
   has_many :rents
@@ -12,7 +13,7 @@ class Lease < ActiveRecord::Base
 
   delegate :formatted_address, to: :unit
 
-  validates :starts_on, :length_in_months, :unit, presence: true
+  validates :charges, :starts_on, :length_in_months, :unit, presence: true
   validates_date :starts_on, allow_blank: true
   validates_numericality_of :length_in_months, only_integer: true, allow_blank: true
   validates_inclusion_of :length_in_months, in: (1..60), allow_blank: true
@@ -21,6 +22,10 @@ class Lease < ActiveRecord::Base
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
   before_save :update_ends_on
+
+  def name
+    unit.name
+  end
 
   def receive_rent!(options={})
     RentReceiver.process!(self, options)

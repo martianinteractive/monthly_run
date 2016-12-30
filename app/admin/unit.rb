@@ -29,7 +29,7 @@ ActiveAdmin.register Unit do
 
   form partial: 'form'
 
-  permit_params :number, :address, :latitude, :longitude, :location, :location_type, :formatted_address, :bounds, :viewport, :route, :street_number, :postal_code, :locality, :sublocality, :country_short, :administrative_area_level_1, :administrative_area_level_2, :place_id, :reference, :url, :unit_type_id, :rent_due, :dimension, :notes
+  permit_params :number, :address, :latitude, :longitude, :location, :location_type, :formatted_address, :bounds, :viewport, :route, :street_number, :postal_code, :locality, :sublocality, :country_short, :administrative_area_level_1, :administrative_area_level_2, :place_id, :reference, :url, :unit_type_id, :dimension, :notes
                 
 
 end

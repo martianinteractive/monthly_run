@@ -33,6 +33,13 @@ ActiveAdmin.register Lease do
         flash[:warning] = "Unit has an active lease."
       end
     end
+
+    def build_new_resource
+      return super if resource_params.first.present?
+      charge = Charge.new(name: "Rent", frequency: 'monthly')
+      Lease.new(charges: [charge])
+    end
+
   end
 
   filter :ends_on, label: "Ends between:"

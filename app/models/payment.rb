@@ -10,13 +10,18 @@ class Payment < ActiveRecord::Base
 
   delegate :formatted_address, to: :lease
   delegate :amount_due, to: :lease
+  delegate :charges, to: :lease, prefix: :lease
 
   validates :admin_user, presence: true
 
-  scope :paid_for_date, ->(date=Time.zone.now.to_date) { where("applicable_period >= ? AND applicable_period <= ?", date.beginning_of_month, date.end_of_month) }
+  scope :paid_period, ->(date=Time.zone.now.to_date) { where("applicable_period >= ? AND applicable_period <= ?", date.beginning_of_month, date.end_of_month) }
   
-  def self.unpaid_for_date(date)
-    Lease.active.where("id NOT IN (#{select(:lease_id).paid_for_date(date).to_sql})")
+  def self.unpaid_period(date)
+    Lease.active.where("id NOT IN (#{leases_paid_sql(date)})").where(Lease.arel_table[:starts_on].lt(date))
+  end
+
+  def self.leases_paid_sql(date)
+    select(:lease_id).paid_period(date).to_sql
   end
   
 end

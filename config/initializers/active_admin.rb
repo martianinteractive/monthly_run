@@ -273,6 +273,7 @@ end
 
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper
+  include PaymentsHelper
 end
 
 Rails.application.config.after_initialize do

@@ -1,0 +1,13 @@
+$(function(){
+  $(".properties").chosen();
+
+  $(".properties").on('change', function() {
+    val = $(this).val();
+    window.location.replace("/admin/payments/new" + "?lease_id=" + val);
+  })
+
+  $('#payment_charge_id').on('change', function() {
+    val = $(this).find(':selected').data('value');
+    $('#payment_amount_collected').val(val);
+  })
+})
