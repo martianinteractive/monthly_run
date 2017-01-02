@@ -23,19 +23,36 @@ class RentReceiver
     end
   end
 
-  def self.process!(lease, options)
+  def self.process_full_payment!(lease, options)
     rent_receiver = self.new(lease, options)
-    rent_receiver.create_lease
+    rent_receiver.create_payments
   end
 
-  def create_lease
-    lease.payments.create({
-      amount_due: amount_due,
-      amount_collected: amount_collected,
+  def create_payments
+    create_periodic_payments
+    create_one_time_payments
+  end
+
+  private
+
+  def create_periodic_payments
+    lease.periodic_charges.each {|charge| create_payment(charge) }
+  end
+
+  def create_one_time_payments
+    return unless lease.one_time_charges.any?
+    lease.one_time_charges.unpaid.each {|charge| create_payment(charge) }
+  end
+
+  def create_payment(charge)
+    lease.payments.create!({
+      amount_due: charge.amount,
+      amount_collected: charge.amount,
       collected_on: collected_on,
       received_via: received_via,
+      charge: charge,
       applicable_period: applicable_period,
       admin_user: admin_user
-      })
+    })
   end
 end

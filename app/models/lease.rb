@@ -27,8 +27,13 @@ class Lease < ActiveRecord::Base
     unit.name
   end
 
-  def receive_rent!(options={})
-    RentReceiver.process!(self, options)
+  def receive_full_payment!(options={})
+    RentReceiver.process_full_payment!(self, options)
+  end
+
+  def update_period
+    parsed_starts_on = Chronic.parse(starts_on)
+    self.period = (parsed_starts_on..(parsed_starts_on + length_in_months.send(:months)))
   end
 
   def update_ends_on

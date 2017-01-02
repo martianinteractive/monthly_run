@@ -11,7 +11,7 @@ ActiveAdmin.register Payment do
 
   member_action :receive, method: :put do
 
-    lease.receive_rent!({
+    lease.receive_full_payment!({
       admin_user:         current_admin_user, 
       applicable_period:  applicable_period
       })
