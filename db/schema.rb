@@ -71,16 +71,16 @@ ActiveRecord::Schema.define(version: 20161229165048) do
   end
 
   create_table "leases", force: :cascade do |t|
-    t.date     "starts_on"
     t.integer  "length_in_months",         default: 12, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "unit_id"
-    t.date     "ends_on"
     t.string   "preferred_payment_method"
     t.integer  "admin_user_id"
     t.integer  "rent_due",                 default: 1
     t.integer  "grace_period_in_days",     default: 1
+    t.date     "ends_on"
+    t.date     "starts_on"
   end
 
   create_table "payments", force: :cascade do |t|
