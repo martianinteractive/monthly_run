@@ -47,5 +47,17 @@ RSpec.describe RentReceiver do
 
   end
 
+  context "receiving full payment" do
+    let(:admin_user) { create(:admin_user) }
+    let(:security_deposit) { create(:charge, name: "security deposit", frequency: "one_time", amount: "500") }
+    let(:rent) { create(:charge, name: "rent", frequency: "monthly", amount: "1200") }
+    let(:lease) { create(:lease, charges: [security_deposit, rent]) }
+
+    it 'creates payment records' do
+      expect { 
+        RentReceiver.process_full_payment!(lease, {admin_user: admin_user}) 
+        }.to change { Payment.count }.by(2)
+    end
+  end
 
 end
