@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/radar/by_star.git
+  revision: 3fe3ef33e98aebcc226cbfea51d1e5101f948c78
+  specs:
+    by_star (2.2.1)
+      activesupport
+
 PATH
   remote: /Users/sergiobayona/Documents/code/gems/active_admin
   specs:
@@ -291,6 +298,7 @@ PLATFORMS
 DEPENDENCIES
   active_skin
   activeadmin!
+  by_star!
   chosen-rails
   chronic
   coffee-rails

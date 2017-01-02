@@ -6,14 +6,14 @@ class Lease < ActiveRecord::Base
   has_many :terms
   has_many :tenants, through: :terms
   has_many :rents
+  has_many :payments
   has_many :charges
   has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
     def unpaid(date=Time.zone.now.to_date)
-      includes(:payments).where(Payment.arel_table[:applicable_period].gt(date.beginning_of_month))
+      joins("LEFT JOIN payments ON payments.charge_id = charges.id").where(Payment.arel_table[:applicable_period].gt(date.beginning_of_month))
     end
   end
   has_many :one_time_charges, -> { where(frequency: 'one_time') }, class_name: "Charge"
-  has_many :payments
 
   accepts_nested_attributes_for :tenants
   accepts_nested_attributes_for :charges
@@ -57,6 +57,10 @@ class Lease < ActiveRecord::Base
 
   def periodic_charge_amount
     Money.new(periodic_charges.to_a.sum(&:amount))
+  end
+
+  def one_time_charge_amount
+    Money.new(one_time_charges.to_a.sum(&:amount))
   end
 
 end

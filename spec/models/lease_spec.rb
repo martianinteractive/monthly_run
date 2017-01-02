@@ -104,12 +104,24 @@ RSpec.describe Lease, type: :model do
     let(:unit) { create(:unit) }
     let(:lease) { create(:lease, charges: [pet_fee, rent, security_deposit], unit: unit) }
 
+    it "includes rent as periodic charge" do
+      expect(lease.periodic_charges).to include(rent)  
+    end
+
+    it "includes pet_fee as periodic charge" do
+      expect(lease.periodic_charges).to include(pet_fee)
+    end
+
+    it "includes security deposit as one time charge" do
+      expect(lease.one_time_charges).to include(security_deposit)
+    end
+
     it "does not include the security deposit in the periodic charge amount" do
       expect(lease.periodic_charge_amount).to eq Money.new(43000)
     end
 
     it "includes the security deposit as one-time charge" do
-      expect(lease.one_time_charge_amount).to eq Money.new(900)
+      expect(lease.one_time_charge_amount).to eq Money.new(90000)
     end
 
   end

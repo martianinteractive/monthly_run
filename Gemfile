@@ -19,6 +19,7 @@ gem 'money-rails'
 gem 'full-name-splitter'
 gem 'validates_timeliness'
 gem 'chosen-rails'
+gem 'by_star', github: "radar/by_star"
 
 group :development, :test do
   gem 'pry-rails'
