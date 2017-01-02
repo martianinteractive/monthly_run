@@ -4,6 +4,8 @@ class Charge < ActiveRecord::Base
   belongs_to :lease
   has_many :payments
 
+  scope :unpaid, -> { includes(:payments).where(payments: {charge_id: nil}) }
+
   monetize :amount_in_cents, allow_nil: false
   validates :name, :frequency, presence: true
 

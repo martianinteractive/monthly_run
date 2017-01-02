@@ -1,11 +1,18 @@
 class Lease < ActiveRecord::Base
+  attr_accessor :starts_on
+
   belongs_to :unit
   belongs_to :admin_user
   has_many :terms
   has_many :tenants, through: :terms
   has_many :rents
   has_many :charges
-  has_many :periodic_charges, -> { where(frequency: ['weekly', 'monthly', 'yearly']) }, class_name: "Charge"
+  has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
+    def unpaid(date=Time.zone.now.to_date)
+      includes(:payments).where(Payment.arel_table[:applicable_period].gt(date.beginning_of_month))
+    end
+  end
+  has_many :one_time_charges, -> { where(frequency: 'one_time') }, class_name: "Charge"
   has_many :payments
 
   accepts_nested_attributes_for :tenants
