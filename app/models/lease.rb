@@ -38,13 +38,9 @@ class Lease < ActiveRecord::Base
     RentReceiver.process_full_payment!(self, options)
   end
 
-  def update_period
-    parsed_starts_on = Chronic.parse(starts_on)
-    self.period = (parsed_starts_on..(parsed_starts_on + length_in_months.send(:months)))
-  end
-
   def update_ends_on
-    self.ends_on = starts_on + length_in_months.send(:months)
+    parsed_starts_on = starts_on.is_a?(String) ? Chronic.parse(starts_on) : starts_on
+    self.ends_on = parsed_starts_on + length_in_months.send(:months)
   end
 
   def time_left
