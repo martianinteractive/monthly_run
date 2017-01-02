@@ -17,7 +17,7 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :_destroy], charges_attributes: [:id, :name, :frequency, :amount]
+  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :signee, :primary, :_destroy], charges_attributes: [:id, :name, :frequency, :amount]
 
   show do
     render 'show'
