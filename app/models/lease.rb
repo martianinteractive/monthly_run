@@ -1,5 +1,4 @@
 class Lease < ActiveRecord::Base
-  attr_accessor :starts_on
 
   belongs_to :unit
   belongs_to :admin_user
@@ -9,11 +8,18 @@ class Lease < ActiveRecord::Base
   has_many :payments
   has_many :charges
   has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
+
     def unpaid(date=Time.zone.now.to_date)
-      joins("LEFT JOIN payments ON payments.charge_id = charges.id").where(Payment.arel_table[:applicable_period].gt(date.beginning_of_month))
+      where("NOT EXISTS(SELECT id FROM payments p WHERE p.charge_id = charges.id AND applicable_period >= ? AND applicable_period <= ?)", date.beginning_of_month, date.end_of_month)
+    end
+
+  end
+  has_many :one_time_charges, -> { where(frequency: 'one_time') }, class_name: "Charge" do
+    
+    def unpaid
+      includes(:payments).where(payments: {lease_id: nil})
     end
   end
-  has_many :one_time_charges, -> { where(frequency: 'one_time') }, class_name: "Charge"
 
   accepts_nested_attributes_for :tenants
   accepts_nested_attributes_for :charges
@@ -47,16 +53,20 @@ class Lease < ActiveRecord::Base
     ends_on - Date.today
   end
 
-  def amount_due
-    periodic_charge_amount
+  def periodic_unpaid_amount(date)
+    periodic_charges.unpaid(date).total_amount
   end
 
-  def periodic_charge_amount
-    Money.new(periodic_charges.to_a.sum(&:amount))
+  def one_time_unpaid_amount
+    one_time_charges.unpaid.total_amount 
   end
 
-  def one_time_charge_amount
-    Money.new(one_time_charges.to_a.sum(&:amount))
+  def amount_due(date=Time.zone.now.to_date)
+    total_period_amount(date)
+  end
+
+  def total_period_amount(date)
+    periodic_unpaid_amount(date) + one_time_unpaid_amount
   end
 
 end

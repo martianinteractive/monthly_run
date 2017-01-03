@@ -98,6 +98,7 @@ RSpec.describe Lease, type: :model do
   end
 
   context "charges" do
+    let(:user) { create(:admin_user) }
     let(:security_deposit) { create(:charge, name: "Security Deposit", amount: "900", frequency: "one_time") }
     let(:pet_fee) { create(:charge, name: "Pet Fee", amount: "30", frequency: "monthly") }
     let(:rent) { create(:charge, name: "Rent", amount: "400", frequency: "monthly") }
@@ -112,18 +113,66 @@ RSpec.describe Lease, type: :model do
       expect(lease.periodic_charges).to include(pet_fee)
     end
 
-    it "includes security deposit as one time charge" do
-      expect(lease.one_time_charges).to include(security_deposit)
+    it "returns the sum of all unpaid periodic charges" do
+      expect(lease.periodic_charges.unpaid.total_amount).to eq Money.new(43000)
     end
 
-    it "does not include the security deposit in the periodic charge amount" do
-      expect(lease.periodic_charge_amount).to eq Money.new(43000)
+    it "returns unpaid periodic charges" do
+      expect(lease.periodic_charges.unpaid).to eq([pet_fee, rent])
     end
 
-    it "includes the security deposit as one-time charge" do
-      expect(lease.one_time_charge_amount).to eq Money.new(90000)
+    it "returns the total period amount" do
+      expect(lease.total_period_amount(Time.zone.now.to_date)).to eq Money.new(133000)
     end
 
+    it "returns the amount due" do
+      expect(lease.amount_due).to eq Money.new(133000)
+    end
+
+    it "does not include the rent when it has been paid" do
+      create(:payment, lease: lease, charge: rent, admin_user: user, applicable_period: Time.zone.today)
+      expect(lease.periodic_charges.unpaid).to_not include(rent)
+    end
+
+    context "when rent for the period has been paid" do
+      before do
+        create(:payment, lease: lease, charge: rent, admin_user: user, applicable_period: Time.zone.today)
+      end
+
+      it "does not include the rent charge as unpaid" do
+        expect(lease.periodic_charges.unpaid).to_not include(rent)  
+      end
+
+      it "excludes the rent amount in the total" do
+        expect(lease.periodic_charges.unpaid.total_amount).to eq pet_fee.amount
+      end
+    end
+
+    context "one time charges" do
+
+      it "includes security deposit as one time charge" do
+        expect(lease.one_time_charges).to include(security_deposit)
+      end
+
+      it "includes unpaid one time charges" do
+        expect(lease.one_time_charges.unpaid).to eq([security_deposit])
+      end
+
+      it "returns the amount of one time charges" do
+        expect(lease.one_time_charges.unpaid.total_amount).to eq Money.new(90000)
+      end
+
+      it "does not include paid one time charges when they are paid" do
+        create(:payment, lease: lease, charge: security_deposit, admin_user: user, applicable_period: Time.zone.today)
+        expect(lease.one_time_charges.unpaid).to be_empty
+      end
+
+      it "" do
+        create(:payment, lease: lease, charge: security_deposit, admin_user: user, applicable_period: Time.zone.today)
+        expect(lease.one_time_charges.unpaid.total_amount).to eq Money.new(0)
+      end
+
+    end
   end
  
 end
