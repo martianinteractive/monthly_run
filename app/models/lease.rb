@@ -10,7 +10,7 @@ class Lease < ActiveRecord::Base
   has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
 
     def unpaid(date=Time.zone.now.to_date)
-      where("NOT EXISTS(SELECT id FROM payments p WHERE p.charge_id = charges.id AND applicable_period >= ? AND applicable_period <= ?)", date.beginning_of_month, date.end_of_month)
+      where(Payment.by_month(date).where(payments: {charge_id: Charge.arel_table[:id]}).exists.not)
     end
 
   end
@@ -34,6 +34,9 @@ class Lease < ActiveRecord::Base
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
+  scope :paid_for_month, -> (date=Time.zone.now.to_date) { where(Payment.joins(:charge).where(applicable_period: date.beginning_of_month..date.end_of_month).exists.not) }
+  #where(payments: {applicable_period: date.beginning_of_month..date.end_of_month}).exists.not }
+
   before_save :update_ends_on
 
   def name
@@ -50,7 +53,7 @@ class Lease < ActiveRecord::Base
   end
 
   def time_left
-    ends_on - Date.today
+    ends_on - Time.zone.today
   end
 
   def periodic_unpaid_amount(date)
