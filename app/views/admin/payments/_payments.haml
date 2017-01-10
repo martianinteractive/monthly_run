@@ -1,0 +1,31 @@
+.panel
+  %h3 Unpaid
+  .panel_content
+    %table
+      %tbody
+        %tr
+          - if leases[:unpaid].any?
+            %th Address
+            %th Amount Due
+            %th 
+            - for lease in leases[:unpaid]
+              %tr
+                %td= lease.formatted_address
+                %td= number_to_currency lease.amount_due
+                %td= button_to "Receive Payment", receive_admin_payment_path(lease, applicable_period: applicable_period), method: :put
+          - else
+            %th All paid!
+
+  %h3 Paid
+  .panel_content
+    %table
+      %tbody
+        %tr
+          %th Received
+          %th From
+          %th Collected On
+        - for lease in leases[:paid]
+          %tr
+            %td= link_to(number_to_currency(lease.amount_due), admin_payment_path(lease))
+            %td= lease.formatted_address
+            %td= #lease.collected_on.to_s(:event_datetime)

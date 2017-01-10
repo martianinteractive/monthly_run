@@ -7,7 +7,7 @@ FactoryGirl.define do
     collected_on "2016-12-23"
     deposited_on "2016-12-23"
     received_via "MyString"
-    admin_user nil
+    admin_user
     applicable_period "2016-12-23"
     charge nil
   end

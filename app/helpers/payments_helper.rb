@@ -3,8 +3,8 @@ module PaymentsHelper
   def selected_period
     period ||= params[:period].present? ? Chronic.parse(params[:period]) : Time.zone.now.to_date
     {
-      paid: Payment.paid_period(period),
-      unpaid: Payment.unpaid_period(period)
+      paid: Lease.paid_for_month(period),
+      unpaid: Lease.payable_for_month(period)
     }
   end
 
@@ -12,8 +12,8 @@ module PaymentsHelper
     month = Time.zone.now.to_date - 1.month
 
     @last_month ||= {
-      paid:   Payment.paid_period(month),
-      unpaid: Payment.unpaid_period(month)
+      paid:   Lease.paid_for_month(month),
+      unpaid: Lease.payable_for_month(month)
     }
   end
 
@@ -21,17 +21,17 @@ module PaymentsHelper
     month = Time.zone.now.to_date
 
     @this_month ||= {
-      paid:   Payment.paid_period(month),
-      unpaid: Payment.unpaid_period(month)
+      paid:   Lease.paid_for_month(month),
+      unpaid: Lease.payable_for_month(month)
     }
   end
 
   def next_month
     month = Time.zone.now.to_date + 1.month
 
-    @last_month ||= {
-      paid:   Payment.paid_period(month),
-      unpaid: Payment.unpaid_period(month)
+    @next_month ||= {
+      paid:   Lease.paid_for_month(month),
+      unpaid: Lease.payable_for_month(month)
     }
   end
 

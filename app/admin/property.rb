@@ -46,7 +46,7 @@ ActiveAdmin.register Property do
       end
       row :account
       row "created by" do |p|
-        p.created_by
+        p.admin_user.full_name
       end
     end
   end

@@ -174,5 +174,33 @@ RSpec.describe Lease, type: :model do
 
     end
   end
+
+  context "leases payable and paid scopes" do
+    let(:security_deposit) { create(:charge, name: "Security Deposit", amount: "900", frequency: "one_time") }
+    let(:pet_fee) { create(:charge, name: "Pet Fee", amount: "30", frequency: "monthly") }
+    let(:rent) { create(:charge, name: "Rent", amount: "400", frequency: "monthly") }
+    let(:unit) { create(:unit) }
+    let(:lease) { create(:lease, charges: [pet_fee, rent, security_deposit], unit: unit) }
+
+    it {
+      expect(Lease.payable_for_month).to eq([lease])
+      expect(Lease.paid_for_month).to eq([])
+    }
+
+    it {
+      create(:payment, lease: lease, charge: security_deposit, applicable_period: Time.zone.today)
+      expect(Lease.payable_for_month).to eq([lease])
+      expect(Lease.paid_for_month).to eq([])
+    }
+
+    it {
+      create(:payment, lease: lease, charge: security_deposit, applicable_period: Time.zone.today)
+      create(:payment, lease: lease, charge: pet_fee, applicable_period: Time.zone.today)
+      create(:payment, lease: lease, charge: rent, applicable_period: Time.zone.today)
+      expect(Lease.payable_for_month).to eq([])
+      expect(Lease.paid_for_month).to eq([lease])
+    }
+
+  end
  
 end

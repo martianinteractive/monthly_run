@@ -3,6 +3,7 @@ class Property < ActiveRecord::Base
   
   belongs_to :account
   belongs_to :unit_type
+  belongs_to :admin_user
   has_many :units
 
   validates :account, :address, :unit_type, presence: true
