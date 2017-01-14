@@ -13,6 +13,10 @@ class Lease < ActiveRecord::Base
       where(Payment.by_month(Lease.parse_date(date)).where(payments: {charge_id: Charge.arel_table[:id]}).exists.not)
     end
 
+    def paid(date=Time.zone.now.to_date)
+      where(Payment.by_month(Lease.parse_date(date)).where(payments: {charge_id: Charge.arel_table[:id]}).exists)
+    end
+
   end
   has_many :one_time_charges, -> { where(frequency: 'one_time') }, class_name: "Charge" do
     
