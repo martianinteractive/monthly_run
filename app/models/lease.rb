@@ -23,6 +23,10 @@ class Lease < ActiveRecord::Base
     def unpaid
       includes(:payments).where(payments: {lease_id: nil})
     end
+
+    def paid
+      joins(:payments)
+    end
   end
 
   accepts_nested_attributes_for :tenants
