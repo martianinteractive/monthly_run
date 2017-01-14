@@ -18,9 +18,9 @@
 
     .tab-content.rents-panel
       #last_month
-        = render partial: "payments", locals: { leases: last_month, applicable_period: "last_month" }
+        = render partial: "payments", locals: { leases: for_month(last_month), applicable_period: "last_month" }
       #this_month
-        = render partial: "payments", locals: { leases: this_month, applicable_period: "this_month" }
+        = render partial: "payments", locals: { leases: for_month(this_month), applicable_period: "this_month" }
       #next_month
-        = render partial: "payments", locals: { leases: next_month, applicable_period: "next_month" }
+        = render partial: "payments", locals: { leases: for_month(next_month), applicable_period: "next_month" }
 
