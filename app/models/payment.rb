@@ -14,7 +14,7 @@ class Payment < ActiveRecord::Base
   delegate :amount_due, to: :lease
   delegate :charges, to: :lease, prefix: :lease
 
-  validates :admin_user, presence: true
+  validates :admin_user, :applicable_period, presence: true
 
   scope :by_pay_period, ->(date=Time.zone.now.to_date) { by_month(date.month, year: date.year) }
   
