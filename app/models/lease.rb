@@ -38,7 +38,8 @@ class Lease < ActiveRecord::Base
     select("leases.*, COUNT(charges.id) AS charges_count, COUNT(payments.id) as payments_count").
     joins("LEFT JOIN charges ON charges.lease_id = leases.id").
     joins("LEFT JOIN payments ON payments.charge_id = charges.id AND payments.applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'").
-    group("leases.id")
+    group("leases.id").
+    where("leases.starts_on < '#{date.end_of_month}'")
   }
 
   before_save :update_ends_on
