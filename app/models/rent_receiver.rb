@@ -17,9 +17,11 @@ class RentReceiver
 
   def applicable_period
     if @applicable_period.is_a?(String)
-      Chronic.parse(@applicable_period)
-    else
+      Chronic.parse(@applicable_period.humanize)
+    elsif @applicable_period.is_a?(Date)
       @applicable_period
+    else
+      raise ArgumentError, "Invalid applicable period."
     end
   end
 
