@@ -34,36 +34,11 @@ class Lease < ActiveRecord::Base
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
-  scope :payable_for_month, -> (date=Time.zone.now.to_date) { 
-    sql_query = <<-SQL
-      id NOT IN 
-      (SELECT charges.lease_id 
-      FROM charges 
-      LEFT OUTER JOIN 
-      payments ON payments.charge_id = charges.id
-      WHERE applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'
-      GROUP BY charges.lease_id 
-      HAVING COUNT(payments.id) = COUNT(*))
-      AND starts_on < '#{date.end_of_month.to_s(:db)}'
-    SQL
-
-    where(sql_query)
-  }
-
-  scope :paid_for_month, -> (date=Time.zone.now.to_date) { 
-    sql_query = <<-SQL
-      id IN 
-      (SELECT charges.lease_id 
-      FROM charges 
-      LEFT OUTER JOIN 
-      payments ON payments.charge_id = charges.id
-      WHERE applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'
-      GROUP BY charges.lease_id 
-      HAVING COUNT(payments.id) = COUNT(*))
-      AND starts_on <= '#{date.beginning_of_month.to_s(:db)}'
-    SQL
-
-    where(sql_query)
+  scope :monthly_balance, -> (date=Time.zone.now.to_date) {
+    select("leases.*, COUNT(charges.id) AS charges_count, COUNT(payments.id) as payments_count").
+    joins("LEFT JOIN charges ON charges.lease_id = leases.id").
+    joins("LEFT JOIN payments ON payments.charge_id = charges.id AND payments.applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'").
+    group("leases.id")
   }
 
   before_save :update_ends_on
