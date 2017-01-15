@@ -7,12 +7,12 @@ class RentReceiver
   def initialize(lease, options={})
     raise ArgumentError, "No Lease!" unless lease.is_a?(Lease)
     @lease = lease
-    @amount_due = options.fetch(:amount_due, lease.amount_due)
     @admin_user = options.fetch(:admin_user, nil)
-    @amount_collected = options.fetch(:amount_collected, lease.amount_due)
     @collected_on = options.fetch(:collected_on, Time.zone.now.to_date)
     @received_via = options.fetch(:received_via, lease.preferred_payment_method)
     @applicable_period = options.fetch(:applicable_period, Time.zone.now.to_date)
+    @amount_due = options.fetch(:amount_due, lease.amount_due(@applicable_period))
+    @amount_collected = options.fetch(:amount_collected, lease.amount_due(@applicable_period))
   end
 
   def applicable_period
@@ -20,6 +20,8 @@ class RentReceiver
       Chronic.parse(@applicable_period.humanize)
     elsif @applicable_period.is_a?(Date)
       @applicable_period
+    elsif @applicable_period.is_a?(ActiveSupport::TimeWithZone)
+      @applicable_period.to_date
     else
       raise ArgumentError, "Invalid applicable period."
     end
