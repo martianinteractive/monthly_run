@@ -121,12 +121,24 @@ RSpec.describe Lease, type: :model do
       expect(lease.periodic_charges.unpaid).to eq([pet_fee, rent])
     end
 
-    it "returns the total period amount" do
-      expect(lease.total_period_amount(Time.zone.now.to_date)).to eq Money.new(133000)
+    it "returns an empty array since no payments have been made" do
+      expect(lease.periodic_charges.paid).to be_empty
+    end
+
+    it "returns the sum of all charges due for the period" do
+      expect(lease.total_period_amount_due(Time.zone.now.to_date)).to eq Money.new(133000)
+    end
+
+    it "returns 0 dollars as the period amount paid" do
+      expect(lease.total_period_amount_paid(Time.zone.now.to_date)).to eq Money.new(0)
     end
 
     it "returns the amount due" do
-      expect(lease.amount_due).to eq Money.new(133000)
+      expect(lease.amount_due(Time.zone.now.to_date)).to eq Money.new(133000)
+    end
+
+    it "returns 0 dollars" do
+      expect(lease.amount_paid(Time.zone.now.to_date)).to eq Money.new(0)
     end
 
     it "does not include the rent when it has been paid" do
@@ -156,6 +168,7 @@ RSpec.describe Lease, type: :model do
 
       it "includes unpaid one time charges" do
         expect(lease.one_time_charges.unpaid).to eq([security_deposit])
+        expect(lease.one_time_charges.paid).to be_empty
       end
 
       it "returns the amount of one time charges" do
@@ -182,24 +195,7 @@ RSpec.describe Lease, type: :model do
     let(:unit) { create(:unit) }
     let(:lease) { create(:lease, charges: [pet_fee, rent, security_deposit], unit: unit) }
 
-    it {
-      expect(Lease.payable_for_month).to eq([lease])
-      expect(Lease.paid_for_month).to eq([])
-    }
-
-    it {
-      create(:payment, lease: lease, charge: security_deposit, applicable_period: Time.zone.today)
-      expect(Lease.payable_for_month).to eq([lease])
-      expect(Lease.paid_for_month).to eq([])
-    }
-
-    it {
-      create(:payment, lease: lease, charge: security_deposit, applicable_period: Time.zone.today)
-      create(:payment, lease: lease, charge: pet_fee, applicable_period: Time.zone.today)
-      create(:payment, lease: lease, charge: rent, applicable_period: Time.zone.today)
-      expect(Lease.payable_for_month).to eq([])
-      expect(Lease.paid_for_month).to eq([lease])
-    }
+    it pending
 
   end
  
