@@ -5,10 +5,17 @@ class Lease < ActiveRecord::Base
   has_many :terms
   has_many :tenants, through: :terms
   has_many :rents
-  has_many :payments
+  has_many :payments do
+    def paid_the_same_day?(date)
+      for_month(date).collect(&:collected_on).uniq.length == 1
+    end
+
+    def date_collected(date)
+      for_month(date).first.collected_on
+    end
+  end
   has_many :charges
   has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
-
     def unpaid(date=Time.zone.now.to_date)
       where(Payment.by_month(Lease.parse_date(date)).where(payments: {charge_id: Charge.arel_table[:id]}).exists.not)
     end
