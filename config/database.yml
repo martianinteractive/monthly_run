@@ -1,12 +1,12 @@
 development: &DEFAULT
-  adapter: postgresql
+    adapter: postgresql
   encoding: utf8
-  database: management_zone_development
+  database: monthly_run_development
   pool: 5
   username: sergiobayona
   password:
 
 test:
   <<: *DEFAULT
-  database: management_zone_test
+  database: monthly_run_test
 
