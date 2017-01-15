@@ -73,6 +73,10 @@ class Lease < ActiveRecord::Base
     periodic_charges.unpaid(date).total_amount
   end
 
+  def periodic_paid_amount(date)
+    periodic_charges.paid(date).total_amount
+  end
+
   def one_time_unpaid_amount
     one_time_charges.unpaid.total_amount 
   end
