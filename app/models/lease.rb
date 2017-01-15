@@ -85,7 +85,7 @@ class Lease < ActiveRecord::Base
     total_period_amount(date)
   end
 
-  def total_period_amount(date)
+  def total_period_amount_due(date)
     periodic_unpaid_amount(date) + one_time_unpaid_amount
   end
 
