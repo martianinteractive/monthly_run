@@ -95,4 +95,16 @@ class Lease < ActiveRecord::Base
     periodic_paid_amount(date) + one_time_paid_amount
   end
 
+  def self.parse_date(date)
+    if date.is_a?(String)
+      Chronic.parse(date.humanize)
+    elsif date.is_a?(Date)
+      date
+    elsif date.is_a?(ActiveSupport::TimeWithZone)
+      date.to_date
+    else
+      raise ArgumentError, "invalid date"
+    end
+  end
+
 end
