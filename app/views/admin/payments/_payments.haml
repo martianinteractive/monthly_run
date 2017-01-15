@@ -1,17 +1,17 @@
 .panel
-  %h3 Unpaid
+  %h3 Payable
   .panel_content
     %table
       %tbody
         %tr
-          %th Address
           %th Amount Due
+          %th Address
           %th 
           - for lease in leases
             - if payment_due?(lease)
               %tr
+                %td= number_to_currency lease.amount_due(applicable_period)
                 %td= lease.formatted_address
-                %td= number_to_currency lease.amount_due
                 %td= button_to "Receive Payment", receive_admin_payment_path(lease, applicable_period: applicable_period), method: :put
 
   %h3 Paid
@@ -25,6 +25,10 @@
         - for lease in leases
           - unless payment_due?(lease)
             %tr
-              %td= link_to(number_to_currency(lease.amount_due), admin_payment_path(lease))
+              %td= link_to(number_to_currency(lease.amount_paid(applicable_period)), admin_payment_path(lease))
               %td= lease.formatted_address
-              %td= #lease.collected_on.to_s(:event_datetime)
+              %td
+                - if lease.payments.paid_the_same_day?(applicable_period)
+                  = lease.payments.date_collected(applicable_period).to_s(:event_date)
+                - else
+                  dates vary
