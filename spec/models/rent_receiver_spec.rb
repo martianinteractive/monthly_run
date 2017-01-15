@@ -35,7 +35,7 @@ RSpec.describe RentReceiver do
 
     let(:rent_receiver) { RentReceiver.new(lease, applicable_period: 1.month.from_now) }
 
-    it { expect(rent_receiver.applicable_period.to_s).to eq((Time.zone.now + 1.month).to_s) }
+    it { expect(rent_receiver.applicable_period.to_s).to eq((Time.zone.now.to_date + 1.month).to_s) }
 
   end
 
