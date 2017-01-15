@@ -5,7 +5,7 @@
 
 
 - if params[:period].present?
-  = render partial: "selected_period", locals: { selected_period: selected_period }
+  = render partial: "payments", locals: { leases: for_month(selected_month), applicable_period: params[:period] }
 - else
   .tabs 
     %ul.nav.nav-tabs{role: "tablist"}

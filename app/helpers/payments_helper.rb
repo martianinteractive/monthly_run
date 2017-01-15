@@ -1,8 +1,7 @@
 module PaymentsHelper
 
-  def selected_period
-    period ||= params[:period].present? ? Chronic.parse(params[:period]) : Time.zone.now.to_date
-    Lease.monthly_balance(period)
+  def selected_month
+    Chronic.parse(params[:period])
   end
 
   def last_month
