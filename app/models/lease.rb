@@ -92,7 +92,7 @@ class Lease < ActiveRecord::Base
     one_time_charges.paid.total_amount
   end
 
-  def amount_due(date)
+  def amount_due(date=Time.zone.now.to_date)
     total_period_amount_due(date)
   end
 
