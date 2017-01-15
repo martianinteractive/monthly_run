@@ -11,11 +11,13 @@ class Payment < ActiveRecord::Base
   monetize :amount_collected_in_cents, allow_nil: false
 
   delegate :formatted_address, to: :lease
-  delegate :amount_due, to: :lease
   delegate :charges, to: :lease, prefix: :lease
 
   validates :admin_user, :applicable_period, presence: true
 
-  scope :by_pay_period, ->(date=Time.zone.now.to_date) { by_month(date.month, year: date.year) }
+  scope :for_month, ->(date=Time.zone.now.to_date) { 
+    date = date.is_a?(String) ? Chronic.parse(date.humanize) : date
+    by_month(date.month, year: date.year) 
+  }
   
 end
