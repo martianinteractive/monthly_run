@@ -9,7 +9,7 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
-gem 'activeadmin', path: "/Users/sergiobayona/Documents/code/gems/active_admin"
+gem 'activeadmin', github: "activeadmin/activeadmin"
 gem 'devise'
 gem 'active_skin'
 gem 'country_select'
@@ -38,6 +38,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-passenger', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
