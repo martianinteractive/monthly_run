@@ -1,5 +1,5 @@
 development: &DEFAULT
-    adapter: postgresql
+  adapter: postgresql
   encoding: utf8
   database: monthly_run_development
   pool: 5
