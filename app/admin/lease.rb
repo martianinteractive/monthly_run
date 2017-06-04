@@ -59,7 +59,7 @@ ActiveAdmin.register Lease do
     end
 
     column "Mo. Rent" do |f|
-      number_to_currency(f.amount_due)
+      number_to_currency(f.monthly_rent)
     end
   end
 
