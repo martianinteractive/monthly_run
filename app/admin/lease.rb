@@ -23,7 +23,7 @@ ActiveAdmin.register Lease do
     render 'show'
   end
 
-  before_filter :active_lease, only: [:new]
+  before_action :active_lease, only: [:new]
 
   controller do
     def active_lease

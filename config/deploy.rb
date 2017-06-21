@@ -1,4 +1,4 @@
-lock "3.7.2"
+lock "3.8.1"
 
 set :application, "monthly_run"
 set :repo_url, "git@github.com:martianinteractive/monthly_run.git"
