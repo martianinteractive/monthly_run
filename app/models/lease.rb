@@ -16,12 +16,13 @@ class Lease < ActiveRecord::Base
   end
   has_many :charges
   has_many :periodic_charges, -> { where(frequency: 'monthly') }, class_name: "Charge" do
+
     def unpaid(date=Time.zone.now.to_date)
-      where(Payment.by_month(Lease.parse_date(date)).where(payments: {charge_id: Charge.arel_table[:id]}).exists.not)
+      where(Payment.by_month(Lease.parse_date(date)).where("payments.charge_id = charges.id").exists.not)
     end
 
     def paid(date=Time.zone.now.to_date)
-      where(Payment.by_month(Lease.parse_date(date)).where(payments: {charge_id: Charge.arel_table[:id]}).exists)
+      where(Payment.by_month(Lease.parse_date(date)).where("payments.charge_id = charges.id").exists)
     end
 
   end
