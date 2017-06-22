@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RentReceiver, "with default options" do
 
-  let(:charge) { create(:charge, amount: 0) }
+  let(:charge) { build(:charge, amount: 0) }
   let(:lease) { create(:lease, charges: [charge]) }
   let(:rent_receiver) { RentReceiver.new(lease) }
   
@@ -49,8 +49,8 @@ RSpec.describe RentReceiver do
 
   context "receiving full payment" do
     let(:admin_user) { create(:admin_user) }
-    let(:security_deposit) { create(:charge, name: "security deposit", frequency: "one_time", amount: "500") }
-    let(:rent) { create(:charge, name: "rent", frequency: "monthly", amount: "1200") }
+    let(:security_deposit) { build(:charge, name: "security deposit", frequency: "one_time", amount: "500") }
+    let(:rent) { build(:charge, name: "rent", frequency: "monthly", amount: "1200") }
     let(:lease) { create(:lease, charges: [security_deposit, rent]) }
 
     it 'creates payment records' do
