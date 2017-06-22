@@ -4,7 +4,7 @@ FactoryGirl.define do
     country "US"
     notes "MyText"
     issues_count 1
-    property nil
-    unit_type nil
+    property
+    unit_type
   end
 end

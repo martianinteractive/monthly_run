@@ -4,5 +4,6 @@ FactoryGirl.define do
     length_in_months 12
     unit
     charges { [build(:charge)] }
+    admin_user
   end
 end

@@ -4,5 +4,6 @@ FactoryGirl.define do
     formatted_address "7317 Howard Place, Jonesboro, GA 39303"
     account
     unit_type
+    admin_user
   end
 end
