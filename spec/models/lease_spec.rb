@@ -42,7 +42,7 @@ RSpec.describe Lease, type: :model do
 
   it "calculates the end of the lease" do
     lease = create(:lease, starts_on: 1.year.ago, length_in_months: 12)
-    expect(lease.ends_on).to eq(Date.today)
+    expect(lease.ends_on).to eq((Date.tomorrow - 1.day))
   end
 
   describe "validating starts on" do
@@ -99,11 +99,11 @@ RSpec.describe Lease, type: :model do
 
   context "charges" do
     let(:user) { create(:admin_user) }
-    let(:security_deposit) { create(:charge, name: "Security Deposit", amount: "900", frequency: "one_time") }
-    let(:pet_fee) { create(:charge, name: "Pet Fee", amount: "30", frequency: "monthly") }
-    let(:rent) { create(:charge, name: "Rent", amount: "400", frequency: "monthly") }
     let(:unit) { create(:unit) }
-    let(:lease) { create(:lease, charges: [pet_fee, rent, security_deposit], unit: unit) }
+    let(:security_deposit) { build(:charge, name: "Security Deposit", amount: "900", frequency: "one_time") }
+    let(:pet_fee) { build(:charge, name: "Pet Fee", amount: "30", frequency: "monthly") }
+    let(:rent) { build(:charge, name: "Rent", amount: "400", frequency: "monthly") }
+    let(:lease) { create(:lease, unit: unit, charges: [security_deposit, pet_fee, rent]) }
 
     it "includes rent as periodic charge" do
       expect(lease.periodic_charges).to include(rent)  
@@ -197,6 +197,17 @@ RSpec.describe Lease, type: :model do
 
     it pending
 
+  end
+
+  context "monthly balance" do
+    let(:rent) { build(:charge, name: "Rent", amount: "500", frequency: "monthly") }
+    let(:unit) { create(:unit) }
+    let!(:lease) { create(:lease, starts_on: 1.year.ago, charges: [rent]) }
+
+    it "returns leases with a monthly balance ?from past unpaid rents?" do
+      expect(Lease.monthly_balance).to eq("")   
+    end
+    
   end
  
 end
