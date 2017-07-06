@@ -97,6 +97,8 @@ class Lease < ActiveRecord::Base
     total_period_amount_due(date)
   end
 
+  alias_method :monthly_rent, :amount_due
+
   def amount_paid(date)
     total_period_amount_paid(date)
   end
