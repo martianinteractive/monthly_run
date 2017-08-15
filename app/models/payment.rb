@@ -12,6 +12,8 @@ class Payment < ActiveRecord::Base
 
   delegate :formatted_address, to: :lease
   delegate :charges, to: :lease, prefix: :lease
+  delegate :unit, to: :lease
+  delegate :formatted_address, to: :unit, prefix: true
 
   validates :admin_user, :applicable_period, presence: true
 
@@ -19,5 +21,10 @@ class Payment < ActiveRecord::Base
     date = date.is_a?(String) ? Chronic.parse(date.humanize) : date
     by_month(date.month, year: date.year) 
   }
+
+
+  def self.for_period(date)
+    for_month(date).first
+  end
   
 end

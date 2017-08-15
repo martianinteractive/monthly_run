@@ -1,9 +1,9 @@
 .panel
-  %h3 Payment #{@rent.created_at}
+  %h3 Payment #{@payment.created_at}
   .panel_content
     %table
       %tbody
         %tr
           %th Address
-          %td= @rent.formatted_address
+          %td= @payment.unit_formatted_address
 
