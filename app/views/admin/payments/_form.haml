@@ -6,5 +6,11 @@
       = f.input :charge, as: :select, collection: options_for_select(@payment.lease_charges.map {|c| [c.name, c.id, {'data-value'=>c.amount}]})
       = f.input :amount_collected, input_html: { style: "width: 10em;"}
       = f.input :collected_on, as: :date_picker
+      %li.input
+        = f.label :applicable_period
+        = f.date_select(:applicable_period, start_year: 1995, discard_day: true, order: [:month, :year], default: Time.zone.now)
+      
+  - if @payment.lease
+    = f.actions
 
 

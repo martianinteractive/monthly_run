@@ -29,10 +29,20 @@ ActiveAdmin.register Payment do
       Payment.new(attributes)
     end
 
+    def create
+      @payment = Payment.new(payment_params)
+      @payment.admin_user = current_admin_user
+      create!
+    end
+
     def index
       index! do |format|
         format.html { render 'index', layout: "active_admin" }
       end
+    end
+
+    def payment_params
+      params[:payment].permit!
     end
 
     def lease
