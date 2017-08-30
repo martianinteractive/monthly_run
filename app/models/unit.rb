@@ -6,6 +6,8 @@ class Unit < ActiveRecord::Base
   has_many :leases
   has_one :active_lease, -> { active }, class_name: "Lease"
   has_many :past_leases, -> { inactive }, class_name: "Lease"
+  has_many :payments, through: :active_lease
+  has_many :past_payments, through: :past_leases, source: :payments
 
   def county
     administrative_area_level_2
