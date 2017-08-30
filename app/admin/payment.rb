@@ -6,6 +6,7 @@ ActiveAdmin.register Payment do
   end
 
   belongs_to :lease, optional: true
+  belongs_to :unit, optional: true
 
   form partial: 'form'
 
@@ -36,8 +37,12 @@ ActiveAdmin.register Payment do
     end
 
     def index
+      super and return if for_unit?
+
       index! do |format|
-        format.html { render 'index', layout: "active_admin" }
+        format.html do 
+          render 'index', layout: 'active_admin'
+        end
       end
     end
 
@@ -55,6 +60,10 @@ ActiveAdmin.register Payment do
 
     def anchor
       applicable_period.to_s.tr(' ', '_')
+    end
+
+    def for_unit?
+      params[:unit_id].present?
     end
   end
 
