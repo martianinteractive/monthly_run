@@ -14,6 +14,7 @@ ActiveAdmin.register Unit do
 
   action_item :only => [:show] do
     link_to "New Lease", new_admin_unit_lease_path(resource)
+    link_to "Payment History", admin_unit_payments_path(resource)
   end
 
   show do
