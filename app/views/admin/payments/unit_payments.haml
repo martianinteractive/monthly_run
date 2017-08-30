@@ -1,0 +1,17 @@
+.paginated_collection
+  .paginated_collection_contents
+    .index_content
+      .index_as_table
+
+        %table
+          %thead
+            %tr
+              %th Payment
+              %th Amount
+              %th Applicable to
+          %tbody
+            - for payment in @unit.payments
+              %tr
+                %td= payment.charge_name
+                %td= payment.amount_collected
+                %td= payment.applicable_period
