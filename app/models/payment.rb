@@ -14,6 +14,7 @@ class Payment < ActiveRecord::Base
   delegate :charges, to: :lease, prefix: :lease
   delegate :unit, to: :lease
   delegate :formatted_address, to: :unit, prefix: true
+  delegate :name, to: :charge, prefix: true
 
   validates :admin_user, :applicable_period, presence: true
 
