@@ -17,7 +17,7 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :signee, :primary, :_destroy], charges_attributes: [:id, :name, :frequency, :amount]
+  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :signee, :primary, :_destroy], charges_attributes: [:id, :name, :frequency, :amount, :_destroy]
 
   show do
     render 'show'
@@ -70,7 +70,7 @@ ActiveAdmin.register Lease do
     end
 
     f.inputs name: "Tenants" do
-      f.has_many :tenants do |f|
+      f.has_many :tenants, allow_destroy: true do |f|
         f.input :full_name
         f.input :email
         f.input :mobile, as: :phone, input_html: { class: "phone_us" }
@@ -82,7 +82,7 @@ ActiveAdmin.register Lease do
     end
 
     f.inputs name: "Charges" do
-      f.has_many :charges do |f|
+      f.has_many :charges, allow_destroy: true do |f|
         f.input :name
         f.input :frequency, as: :select, collection: frequency_options
         f.input :amount, as: :number, input_html: { style: "width: 200px;" }

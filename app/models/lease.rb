@@ -37,8 +37,8 @@ class Lease < ActiveRecord::Base
     end
   end
 
-  accepts_nested_attributes_for :tenants
-  accepts_nested_attributes_for :charges
+  accepts_nested_attributes_for :tenants, allow_destroy: true
+  accepts_nested_attributes_for :charges, allow_destroy: true
 
   delegate :formatted_address, to: :unit
 
