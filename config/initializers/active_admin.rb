@@ -276,10 +276,10 @@ module ActiveAdmin::ViewHelpers
   include PaymentsHelper
 end
 
-Rails.application.config.after_initialize do
-  javascripts = [] 
-  javascripts << "//maps.googleapis.com/maps/api/js?key=AIzaSyDbDWb86oGGkjJZzuZ0_YDcewZsmbma34M&libraries=places"
-  javascripts += ActiveAdmin.application.javascripts.to_a
-  ActiveAdmin.application.javascripts.replace javascripts
-end
+# Rails.application.config.after_initialize do
+#   javascripts = [] 
+#   javascripts << "//maps.googleapis.com/maps/api/js?key=AIzaSyDbDWb86oGGkjJZzuZ0_YDcewZsmbma34M&libraries=places"
+#   javascripts += ActiveAdmin.application.javascripts.to_a
+#   ActiveAdmin.application.javascripts.replace javascripts
+# end
 
