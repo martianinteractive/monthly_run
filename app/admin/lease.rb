@@ -9,7 +9,7 @@ ActiveAdmin.register Lease do
   
   config.clear_action_items!
 
-  action_item :only => [:show] do
+  action_item :edit, only: :show do
     link_to "Edit Lease", edit_admin_lease_path(resource)
   end
 

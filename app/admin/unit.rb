@@ -12,7 +12,7 @@ ActiveAdmin.register Unit do
   filter :city
   filter :zip
 
-  action_item :only => [:show] do
+  action_item :admin, only: :show do
     link_to "New Lease", new_admin_unit_lease_path(resource)
     link_to "Payment History", admin_unit_payments_path(resource)
   end
