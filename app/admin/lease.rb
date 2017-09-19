@@ -1,9 +1,5 @@
 ActiveAdmin.register Lease do
 
-  before_create do |order|
-    resource.admin_user = current_admin_user
-  end
-
   scope :active, default: true
   scope :inactive
   
@@ -38,6 +34,11 @@ ActiveAdmin.register Lease do
       return super if resource_params.first.present?
       charge = Charge.new(name: "Rent", frequency: 'monthly')
       Lease.new(charges: [charge])
+    end
+
+    def create_resource(object)
+      object.admin_user = current_admin_user
+      object.save
     end
 
   end
