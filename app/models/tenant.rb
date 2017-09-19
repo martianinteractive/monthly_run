@@ -1,7 +1,6 @@
 class Tenant < ActiveRecord::Base
   include FullNameSplitter
   
-  belongs_to :property
   has_many :terms
   has_many :leases, through: :terms
   has_one :active_term, class_name: "Term"
