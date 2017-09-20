@@ -1,4 +1,5 @@
 class Lease < ActiveRecord::Base
+  attr_accessor :length_in_months
 
   belongs_to :unit
   belongs_to :admin_user
