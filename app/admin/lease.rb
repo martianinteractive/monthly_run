@@ -13,7 +13,7 @@ ActiveAdmin.register Lease do
 
   menu priority: 2
 
-  permit_params :starts_on, :length_in_months, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :signee, :primary, :_destroy], charges_attributes: [:id, :name, :frequency, :amount, :_destroy]
+  permit_params :starts_on, :ends_on, tenants_attributes: [:id, :full_name, :email, :mobile, :work_phone, :home_phone, :signee, :primary, :_destroy], charges_attributes: [:id, :name, :frequency, :amount, :_destroy]
 
   show do
     render 'show'
@@ -67,7 +67,7 @@ ActiveAdmin.register Lease do
   form do |f|
     f.inputs name: "Details" do
       f.input :starts_on, label: "Lease starts on", as: :date_picker
-      f.input :length_in_months, label: "Length", as: :select, collection: month_options
+      f.input :ends_on, label: "Lease ends on", as: :date_picker
     end
 
     f.inputs name: "Tenants" do
