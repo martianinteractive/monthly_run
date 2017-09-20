@@ -42,7 +42,7 @@ class Lease < ActiveRecord::Base
 
   delegate :formatted_address, to: :unit
 
-  validates :charges, :starts_on, :length_in_months, :unit, presence: true
+  validates :charges, :starts_on, :ends_on, :unit, presence: true
   validates_date :starts_on, allow_blank: true
   validates_numericality_of :length_in_months, only_integer: true, allow_blank: true
   validates_inclusion_of :length_in_months, in: (1..60), allow_blank: true
@@ -57,7 +57,7 @@ class Lease < ActiveRecord::Base
     group("leases.id").
     where("leases.starts_on < '#{date.end_of_month}'")
   }
-
+  
   before_save :update_ends_on
 
   def name
