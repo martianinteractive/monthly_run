@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-namespace :admin do
-  resources :leases do
-    resources :payments
+  root to: "admin/dashboard#index"
+  
+  namespace :admin do
+    resources :leases do
+      resources :payments
+    end
   end
-end
 
 # namespace :admin do
 #   resources :units, only: [] do
