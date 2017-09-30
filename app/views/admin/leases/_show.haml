@@ -27,13 +27,13 @@
               = distance_of_time_in_words_to_now(@lease.ends_on)
           %tr
             %th Lease Starts
-            %td= @lease.starts_on
+            %td= @lease.starts_on.to_s(:event_date)
           %tr
             %th Lease Ends
-            %td= @lease.ends_on
+            %td= @lease.ends_on.to_s(:event_date)
           %tr
-            %th Length in months
-            %td= @lease.length_in_months
+            %th Lease length
+            %td= @lease.length_in_words
           %tr
             %th Charges
             %td
