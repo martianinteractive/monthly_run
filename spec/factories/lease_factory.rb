@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :lease do
     starts_on Date.yesterday
-    length_in_months 12
+    ends_on 1.year.from_now
     unit
     charges { [build(:charge)] }
     admin_user
