@@ -16,8 +16,8 @@ RSpec.describe Unit, type: :model do
   context "current payments" do
     let!(:lease) { create(:lease, :current, unit: unit) }
 
-    it "returns payments from current leases" do
-      expect(unit.past_payments).to eq([payment])
+    it "returns no payments since the lease is current" do
+      expect(unit.past_payments).to eq([])
     end
   end
 

@@ -23,6 +23,10 @@ class Payment < ActiveRecord::Base
     by_month(date.month, year: date.year) 
   }
 
+  scope :unpaid, -> () {
+# SELECT p.lease_id, charges.* FROM payments p LEFT JOIN charges ON charges.id = p.charge_id WHERE NOT EXISTS(SELECT c.* FROM charges c WHERE c.id = p.charge_id AND (p.applicable_period >= '2017-09-01 00:00:00' AND p.applicable_period <= '2017-09-30 23:59:59.999999')) GROUP BY p.lease_id, charges.id
+  }
+
 
   def self.for_period(date)
     for_month(date).first

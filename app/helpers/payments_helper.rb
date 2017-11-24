@@ -17,7 +17,7 @@ module PaymentsHelper
   end
 
   def for_month(month)
-    Lease.monthly_balance(month)
+    Lease.with_monthly_balance(month)
   end
 
   def active_leases_options
