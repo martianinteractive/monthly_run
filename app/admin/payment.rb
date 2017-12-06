@@ -1,3 +1,5 @@
+require_relative '../../lib/index_as_balance'
+
 ActiveAdmin.register Payment do
 
   before_create do |order|
