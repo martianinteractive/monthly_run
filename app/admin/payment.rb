@@ -5,10 +5,7 @@ ActiveAdmin.register Payment do
   before_create do |order|
     resource.admin_user = current_admin_user
   end
-
-  # scope :accumulated_balance do |payments|
-  # end
-
+  
   belongs_to :unit, optional: true
 
   form partial: 'form'

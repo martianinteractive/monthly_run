@@ -54,10 +54,11 @@ class Lease < ActiveRecord::Base
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
   scope :balance, -> (date=Time.zone.now.to_date) {
-    select("leases.*", "c.name AS charge_name", "c.amount_in_cents AS charge_amount_in_cents", "p.amount_collected_in_cents AS amount_collected_cents").
+    date = date.is_a?(Date) ? date : Date.parse(date)
+    select("leases.*", "c.name AS charge_name", "c.amount_in_cents AS charge_amount_in_cents", "payments.amount_collected_in_cents AS amount_collected_cents", "payments.collected_on").
     joins("LEFT JOIN units u ON leases.unit_id = u.id").
     joins("LEFT JOIN charges c ON c.lease_id = leases.id").
-    joins("LEFT JOIN payments p ON leases.id = p.lease_id AND p.applicable_period BETWEEN '#{date.beginning_of_month}' AND '#{date.end_of_month}'").
+    joins("LEFT JOIN payments ON leases.id = payments.lease_id AND payments.applicable_period BETWEEN '#{date.beginning_of_month}' AND '#{date.end_of_month}'").
     where("CURRENT_DATE < leases.ends_on").
     where("c.frequency = 'monthly'")
   }
@@ -66,6 +67,10 @@ class Lease < ActiveRecord::Base
 
   def name
     unit.name
+  end
+
+  def self.ransackable_scopes(auth_object=nil)
+    [:balance]
   end
 
   def receive_full_payment!(options={})
