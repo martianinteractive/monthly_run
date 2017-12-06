@@ -53,12 +53,13 @@ class Lease < ActiveRecord::Base
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
-  scope :with_monthly_balance, -> (date=Time.zone.now.to_date) {
-    select("leases.*, COUNT(charges.id) AS charges_count, COUNT(payments.id) as payments_count").
-    joins("LEFT JOIN charges ON charges.lease_id = leases.id").
-    joins("LEFT JOIN payments ON payments.charge_id = charges.id AND payments.applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'").
-    group("leases.id").
-    where("leases.starts_on < '#{date.end_of_month}'")
+  scope :balance, -> (date=Time.zone.now.to_date) {
+    select("leases.*", "c.name AS charge_name", "c.amount_in_cents AS charge_amount_in_cents", "p.amount_collected_in_cents AS amount_collected_cents").
+    joins("LEFT JOIN units u ON leases.unit_id = u.id").
+    joins("LEFT JOIN charges c ON c.lease_id = leases.id").
+    joins("LEFT JOIN payments p ON leases.id = p.lease_id AND p.applicable_period BETWEEN '#{date.beginning_of_month}' AND '#{date.end_of_month}'").
+    where("CURRENT_DATE < leases.ends_on").
+    where("c.frequency = 'monthly'")
   }
   
   before_save :update_ends_on
