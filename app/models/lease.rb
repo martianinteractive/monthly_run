@@ -7,7 +7,6 @@ class Lease < ActiveRecord::Base
   belongs_to :admin_user
   has_many :terms
   has_many :tenants, through: :terms
-  has_many :rents
   has_many :payments do
     def paid_the_same_day?(date)
       for_month(date).collect(&:collected_on).uniq.length == 1
@@ -53,24 +52,20 @@ class Lease < ActiveRecord::Base
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
-  scope :balance, -> (date=Time.zone.now.to_date) {
-    date = date.is_a?(Date) ? date : Date.parse(date)
-    select("leases.*", "c.name AS charge_name", "c.amount_in_cents AS charge_amount_in_cents", "payments.amount_collected_in_cents AS amount_collected_cents", "payments.collected_on").
-    joins("LEFT JOIN units u ON leases.unit_id = u.id").
-    joins("LEFT JOIN charges c ON c.lease_id = leases.id").
-    joins("LEFT JOIN payments ON leases.id = payments.lease_id AND payments.applicable_period BETWEEN '#{date.beginning_of_month}' AND '#{date.end_of_month}'").
-    where("CURRENT_DATE < leases.ends_on").
-    where("c.frequency = 'monthly'")
-  }
+  # scope :balance, -> (date=Time.zone.now.to_date) {
+  #   date = date.is_a?(Date) ? date : Date.parse(date)
+  #   select("leases.*", "c.name AS charge_name", "c.amount_in_cents AS charge_amount_in_cents", "payments.amount_collected_in_cents AS amount_collected_cents", "payments.collected_on").
+  #   joins("LEFT JOIN units u ON leases.unit_id = u.id").
+  #   joins("LEFT JOIN charges c ON c.lease_id = leases.id").
+  #   joins("LEFT JOIN payments ON leases.id = payments.lease_id AND payments.applicable_period BETWEEN '#{date.beginning_of_month}' AND '#{date.end_of_month}'").
+  #   where("CURRENT_DATE < leases.ends_on").
+  #   where("c.frequency = 'monthly'")
+  # }
   
   before_save :update_ends_on
 
   def name
     unit.name
-  end
-
-  def self.ransackable_scopes(auth_object=nil)
-    [:balance]
   end
 
   def receive_full_payment!(options={})

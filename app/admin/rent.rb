@@ -1,11 +1,12 @@
-ActiveAdmin.register Lease, as: "Rent" do
+ActiveAdmin.register Balance, as: "Rent" do
 
   config.filters = true
   config.batch_actions = false
 
-  scope "All", :balance, default: true
 
-  filter :balance, as: :select, collection: {"This Month" => Time.zone.today.to_date, "Last Month" => 1.month.ago }
+  scope :paid
+
+  filter :by_period, label: "Dates", as: :select, collection: {"This Month" => Time.zone.today.to_date, "Last Month" => 1.month.ago }
 
   index do 
     column :unit do |f|
