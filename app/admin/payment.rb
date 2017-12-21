@@ -1,9 +1,11 @@
+require_relative '../../lib/index_as_balance'
+
 ActiveAdmin.register Payment do
 
   before_create do |order|
     resource.admin_user = current_admin_user
   end
-
+  
   belongs_to :unit, optional: true
 
   form partial: 'form'

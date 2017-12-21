@@ -13,7 +13,6 @@ RSpec.describe Lease, type: :model do
   it { is_expected.to accept_nested_attributes_for(:tenants) }
 
   it { is_expected.to validate_presence_of(:starts_on) }
-  it { is_expected.to validate_presence_of(:length_in_months) }
 
   context "active/inactive" do
 
@@ -76,18 +75,6 @@ RSpec.describe Lease, type: :model do
       lease = build(:lease, length_in_months: 1)
       lease.valid?
       expect(lease.errors[:length_in_months]).to eq([])
-    end
-
-    it "cannot be nil - does not trigger integer validation" do
-      lease = build(:lease, length_in_months: nil)
-      lease.valid?
-      expect(lease.errors[:length_in_months]).to eq(["can't be blank"])
-    end
-
-    it "cannot be blank - does not trigger integer validation" do
-      lease = build(:lease, length_in_months: "")
-      lease.valid?
-      expect(lease.errors[:length_in_months]).to eq(["can't be blank"])
     end
 
     it "cannot be blank - does not trigger integer validation" do
@@ -203,9 +190,15 @@ RSpec.describe Lease, type: :model do
     let(:rent) { build(:charge, name: "Rent", amount: "500", frequency: "monthly") }
     let(:unit) { create(:unit) }
     let!(:lease) { create(:lease, starts_on: 1.year.ago, charges: [rent]) }
+    let!(:user) { create(:admin_user) }
 
     it "returns leases with a monthly balance ?from past unpaid rents?" do
-      expect(Lease.monthly_balance).to eq("")   
+      expect(Lease.with_monthly_balance).to eq([lease])
+    end
+
+    it "" do
+      lease.payments.create(name: 'test', amount_due: 500, amount_collected: 500, collected_on: Time.zone.now.to_date, applicable_period: Time.zone.now.to_date, charge: rent, admin_user: user)
+      expect(Lease.with_monthly_balance).to eq('')
     end
     
   end

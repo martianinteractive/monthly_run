@@ -1,11 +1,12 @@
 class Lease < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+  
   attr_accessor :length_in_months
 
   belongs_to :unit
   belongs_to :admin_user
   has_many :terms
   has_many :tenants, through: :terms
-  has_many :rents
   has_many :payments do
     def paid_the_same_day?(date)
       for_month(date).collect(&:collected_on).uniq.length == 1
@@ -51,13 +52,19 @@ class Lease < ActiveRecord::Base
   scope :active, -> { where("CURRENT_DATE < ends_on") }
   scope :inactive, -> { where("CURRENT_DATE >= ends_on") }
 
-  scope :monthly_balance, -> (date=Time.zone.now.to_date) {
-    select("leases.*, COUNT(charges.id) AS charges_count, COUNT(payments.id) as payments_count").
-    joins("LEFT JOIN charges ON charges.lease_id = leases.id").
-    joins("LEFT JOIN payments ON payments.charge_id = charges.id AND payments.applicable_period BETWEEN '#{date.beginning_of_month.to_s(:db)}' AND '#{date.end_of_month.to_s(:db)}'").
-    group("leases.id").
-    where("leases.starts_on < '#{date.end_of_month}'")
+  scope :month, -> {
+    left_joins(:unit, :charges)
   }
+
+  scope :paid, -> {
+    joins(:payments).on(Lease.arel_table[:id].eq(Payment.arel_table[:lease_id]).and(Payment.arel_table[:applicable_period].between(Date.yesterday..Date.today)))
+  }
+
+  scope :total, -> {
+   left_joins(:payments).on(Lease.arel_table[:id].eq(Payment.arel_table[:lease_id]).and(Payment.arel_table[:applicable_period].between(Date.yesterday..Date.today)))
+  }
+
+  scope :monthly, -> { where(frequency: 'monthly') }
   
   before_save :update_ends_on
 
@@ -69,7 +76,12 @@ class Lease < ActiveRecord::Base
     RentReceiver.process_full_payment!(self, options)
   end
 
+  def length_in_words
+    distance_of_time_in_words(starts_on, ends_on)
+  end
+
   def update_ends_on
+    return unless length_in_months.present?
     parsed_starts_on = starts_on.is_a?(String) ? Chronic.parse(starts_on) : starts_on
     self.ends_on = parsed_starts_on + length_in_months.send(:months)
   end
